@@ -15,6 +15,7 @@ namespace TEAyudo_Tutores.Controllers
     {
         private readonly TEAyudoContext _context;
 
+        //rokopop
         public PacienteController(TEAyudoContext context)
         {
             _context = context;
