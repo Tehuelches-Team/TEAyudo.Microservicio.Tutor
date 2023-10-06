@@ -12,8 +12,8 @@ using TEAyudo_Tutores;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(TEAyudoContext))]
-    [Migration("20231004134758_prueba")]
-    partial class prueba
+    [Migration("20231006173046_roko")]
+    partial class roko
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

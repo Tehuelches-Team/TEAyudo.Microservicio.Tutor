@@ -1,4 +1,4 @@
-﻿namespace TEAyudo_Tutores.Application.DTO;
+﻿namespace Application.DTO;
 
 public class PacienteDTO
 {

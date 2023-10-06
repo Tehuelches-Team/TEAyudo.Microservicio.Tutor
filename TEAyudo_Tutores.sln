@@ -3,15 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TEAyudo_Tutores", "TEAyudo_Tutores\TEAyudo_Tutores.csproj", "{A624F8A6-35EE-4972-85E6-F99D889BB715}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TEAyudo_Tutores", "TEAyudo_Tutores\TEAyudo_Tutores.csproj", "{A624F8A6-35EE-4972-85E6-F99D889BB715}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{47204405-6F8B-4504-AC92-E50E50D0A856}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{47204405-6F8B-4504-AC92-E50E50D0A856}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{18A05C9A-E3D1-4CA1-B087-BFB538B6CE37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{18A05C9A-E3D1-4CA1-B087-BFB538B6CE37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{D0EB455D-2196-43D8-98F1-6FDF72504761}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools", "Tools\Tools.csproj", "{50248519-4055-4410-B921-C04233346D5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{D0EB455D-2196-43D8-98F1-6FDF72504761}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +33,6 @@ Global
 		{D0EB455D-2196-43D8-98F1-6FDF72504761}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0EB455D-2196-43D8-98F1-6FDF72504761}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0EB455D-2196-43D8-98F1-6FDF72504761}.Release|Any CPU.Build.0 = Release|Any CPU
-		{50248519-4055-4410-B921-C04233346D5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50248519-4055-4410-B921-C04233346D5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50248519-4055-4410-B921-C04233346D5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50248519-4055-4410-B921-C04233346D5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
