@@ -1,5 +1,4 @@
 using Application.Interface;
-using Application.Interface.Paciente;
 using Application.Service;
 using Infrastructure.Command;
 using Infrastructure.Query;

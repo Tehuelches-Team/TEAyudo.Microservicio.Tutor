@@ -1,16 +1,14 @@
 ﻿using Application.DTO;
 using Application.Model.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Interface
 {
     public interface ITutorService
     {
+        Task<List<TutorResponse>> GetAllTutor();
         Task<TutorResponse?> GetTutorById(int Id);
         Task<bool> AddTutor(TutorDTO TutorDTO);
+        Task<TutorResponse?> PutTutor(int Id, TutorDTO TutorDTO);
+        Task<TutorResponse?> DeleteTutor(int Id);
     }
 }

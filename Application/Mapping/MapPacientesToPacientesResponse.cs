@@ -1,10 +1,5 @@
 ﻿using Application.Model.Response;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Mapping
 {
@@ -13,7 +8,7 @@ namespace Application.Mapping
         public static List<PacienteResponse> Map(List<Paciente> ListaPaciente)
         {
             List<PacienteResponse> ListaPacienteResponse = new List<PacienteResponse>();
-            foreach (Paciente Pac in ListaPaciente) 
+            foreach (Paciente Pac in ListaPaciente)
             {
                 PacienteResponse PacResponse = new PacienteResponse
                 {
@@ -27,6 +22,6 @@ namespace Application.Mapping
                 ListaPacienteResponse.Add(PacResponse);
             }
             return ListaPacienteResponse;
-        } 
+        }
     }
 }

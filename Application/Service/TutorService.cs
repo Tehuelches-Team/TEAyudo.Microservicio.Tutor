@@ -3,11 +3,6 @@ using Application.Interface;
 using Application.Mapping;
 using Application.Model.Response;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Service
 {
@@ -16,17 +11,17 @@ namespace Application.Service
         private readonly ITutorQuery TutorQuery;
         private readonly ITutorCommand TutorCommand;
 
-        public TutorService (ITutorQuery TutorQuery, ITutorCommand TutorCommand)
+        public TutorService(ITutorQuery TutorQuery, ITutorCommand TutorCommand)
         {
             this.TutorQuery = TutorQuery;
             this.TutorCommand = TutorCommand;
         }
 
-        public async Task<TutorResponse?> GetTutorById(int Id) 
+        public async Task<TutorResponse?> GetTutorById(int Id)
         {
             Tutor? Tutor = await TutorQuery.GetTutorById(Id);
             TutorResponse? TutorResponse;
-            if (Tutor == null) 
+            if (Tutor == null)
             {
                 TutorResponse = null;
             }
@@ -34,6 +29,7 @@ namespace Application.Service
             {
                 TutorResponse = new TutorResponse
                 {
+                    TutorId = Tutor.TutorId,
                     UsuarioId = Tutor.UsuarioId,
                     PacientesResPonse = MapPacientesToPacientesResponse.Map(Tutor.Pacientes),
                     CertUniDisc = Tutor.CertUniDisc,
@@ -41,8 +37,8 @@ namespace Application.Service
             }
             return TutorResponse;
         }
-    
-        public async Task<bool> AddTutor(TutorDTO TutorDTO) 
+
+        public async Task<bool> AddTutor(TutorDTO TutorDTO)
         {
             Tutor Tutor = new Tutor
             {
@@ -52,5 +48,61 @@ namespace Application.Service
             };
             return await TutorCommand.AddTutor(Tutor);
         }
+
+        public async Task<TutorResponse?> PutTutor(int Id, TutorDTO TutorDTO) 
+        {
+            Tutor? Tutor = await TutorCommand.PutTutor(Id, TutorDTO);
+            if (Tutor != null)
+            {
+                TutorResponse TutorResponse = new TutorResponse
+                {
+                    TutorId = Tutor.TutorId,
+                    UsuarioId = Tutor.UsuarioId,
+                    PacientesResPonse = MapPacientesToPacientesResponse.Map(Tutor.Pacientes),
+                    CertUniDisc = Tutor.CertUniDisc,
+                };
+                return TutorResponse;
+            }
+            return null;
+        }
+
+        public async Task<TutorResponse?> DeleteTutor(int Id) 
+        {
+            Tutor? Tutor = await TutorCommand.DeleteTutor(Id);
+            if (Tutor != null)
+            {
+                TutorResponse TutorResponse = new TutorResponse
+                {
+                    TutorId = Tutor.TutorId,
+                    UsuarioId = Tutor.UsuarioId,
+                    PacientesResPonse = MapPacientesToPacientesResponse.Map(Tutor.Pacientes),
+                    CertUniDisc = Tutor.CertUniDisc,
+                };
+                return TutorResponse;
+            }
+            return null;
+        }
+
+
+        public async Task<List<TutorResponse>> GetAllTutor() 
+        {
+            List<Tutor> ListaTutor = await TutorQuery.GetAllTutor();
+            List<TutorResponse> ListaTutorResponse = new List<TutorResponse>();
+            TutorResponse TutorResponse;
+            foreach (Tutor Tutor in ListaTutor)
+            {
+                TutorResponse = new TutorResponse
+                {
+                    TutorId = Tutor.TutorId,
+                    UsuarioId = Tutor.UsuarioId,
+                    PacientesResPonse = MapPacientesToPacientesResponse.Map(Tutor.Pacientes),
+                    CertUniDisc = Tutor.CertUniDisc
+                };
+                ListaTutorResponse.Add(TutorResponse);
+            }
+            return ListaTutorResponse;
+        }
+
+
     }
 }

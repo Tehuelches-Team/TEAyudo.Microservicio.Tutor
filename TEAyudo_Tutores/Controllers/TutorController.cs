@@ -1,10 +1,7 @@
 ﻿using Application.DTO;
 using Application.Interface;
 using Application.Model.Response;
-using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TEAyudo_Tutores;
 
 
 namespace TEAyudo.Controllers
@@ -20,6 +17,21 @@ namespace TEAyudo.Controllers
             this.TutorService = TutorService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllTutor() 
+        {
+            List<TutorResponse> ListaTutorResponse = await TutorService.GetAllTutor();
+            if (ListaTutorResponse.Count == 0) 
+            {
+                var ObjetoAnonimo = new
+                {
+                    Mensaje = "La lista esta vacia."
+                };
+                return Ok(ObjetoAnonimo);
+            }
+            return Ok(ListaTutorResponse);
+        }
+        
         [HttpGet("{Id}")]
         public async Task<ActionResult> GetTutorById(int Id)
         {
@@ -39,9 +51,9 @@ namespace TEAyudo.Controllers
         public async Task<ActionResult> PostTutor(TutorDTO TutorDTO)
         {
             bool Resultado = await TutorService.AddTutor(TutorDTO);
-            if (Resultado) 
+            if (Resultado)
             {
-                return new JsonResult("Tutor aniadido exitosamente") { StatusCode = 201};
+                return new JsonResult("Tutor aniadido exitosamente") { StatusCode = 201 };
             }
             else
             {
@@ -53,79 +65,36 @@ namespace TEAyudo.Controllers
             }
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutTutor(int id, TutorDTO tutorDTO) 
-        //{
-        //    if (id != tutorDTO.TutorId)
-        //    {
-        //        return BadRequest();
-        //    }
+        [HttpPut("{Id}")]
+        public async Task<IActionResult> PutTutor(int Id, TutorDTO TutorDTO) 
+        {
+            TutorResponse? TutorResponse = await TutorService.PutTutor(Id, TutorDTO);
+            if (TutorResponse == null) 
+            {
+                var ObjetoAnonimo = new
+                {
+                    Mensaje = "No se ha encontrado el tutor a actualizar."
+                };
+                return new JsonResult(ObjetoAnonimo) { StatusCode = 404 };
+            }
+            return new JsonResult(TutorResponse) { StatusCode = 201};
+        }
 
-        //    var tutor = new Tutor
-        //    {
-        //        TutorId = tutorDTO.TutorId,
-        //        UsuarioId = tutorDTO.UsuarioId,
-        //        CertUniDisc = tutorDTO.CertUniDisc
-                
-        //    };
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> DeleteTutor(int Id)
+        {
+            TutorResponse? TutorResponse = await TutorService.DeleteTutor(Id);
 
-        //    _context.Entry(tutor).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!TutorExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteTutor(int id)
-        //{
-        //    var tutor = await _context.Tutores.FindAsync(id);
-        //    if (tutor == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Tutores.Remove(tutor);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
-        //private bool TutorExists(int id)
-        //{
-        //    return _context.Tutores.Any(e => e.TutorId == id);
-        //}
-
-        //private TutorDTO MapTutorToTutorDTO(Tutor tutor)
-        //{
-        //    if (tutor == null)
-        //    {
-        //        return null;
-        //    }
-
-        //    var tutorDTO = new TutorDTO
-        //    {
-        //        TutorId = tutor.TutorId,
-        //        UsuarioId = tutor.UsuarioId,
-        //        CertUniDisc = tutor.CertUniDisc
-        //    };
-
-        //    return tutorDTO;
-        //}
+            if (TutorResponse == null)
+            {
+                var ObjetoAnonimo = new
+                {
+                    Mensaje = "No se ha encontrado el tutor a eiminar."
+                };
+                return NotFound(ObjetoAnonimo);
+            }
+            return Ok(TutorResponse);
+        }
 
     }
 }

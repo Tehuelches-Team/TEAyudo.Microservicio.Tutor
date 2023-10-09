@@ -1,10 +1,7 @@
-﻿using Application.Interface;
+﻿using Application.DTO;
+using Application.Interface;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TEAyudo_Tutores;
 
 namespace Infrastructure.Command
@@ -19,11 +16,43 @@ namespace Infrastructure.Command
         }
 
 
-        public async Task<bool> AddTutor(Tutor Tutor) 
+        public async Task<bool> AddTutor(Tutor Tutor)
         {
             Context.Tutores.AddAsync(Tutor);
             Context.SaveChanges();
             return true;
         }
+
+
+
+        public async Task<Tutor?> PutTutor(int Id, TutorDTO TutorDTO)
+        {
+            Tutor? Tutor = await Context.Tutores.Include(p => p.Pacientes).FirstOrDefaultAsync(f => f.TutorId == Id);
+            if (Tutor != null)
+            {
+                Tutor.UsuarioId = TutorDTO.UsuarioId;
+                Tutor.CertUniDisc = TutorDTO.CertUniDisc;
+                Context.Tutores.Update(Tutor);
+                Context.SaveChanges();
+                return Tutor;
+            }
+            return null;
+        }
+
+
+
+        public async Task<Tutor?> DeleteTutor(int Id)
+        {
+            Tutor? Tutor = await Context.Tutores.Include(p => p.Pacientes).FirstOrDefaultAsync(f => f.TutorId == Id);
+            if (Tutor != null)
+            {
+                Context.Tutores.Remove(Tutor);
+                await Context.SaveChangesAsync();
+                return Tutor;
+            }
+            return null;
+        }
+
+
     }
 }
