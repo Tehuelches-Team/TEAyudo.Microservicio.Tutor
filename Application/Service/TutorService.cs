@@ -21,6 +21,7 @@ namespace Application.Service
         {
             Tutor? Tutor = await TutorQuery.GetTutorById(Id);
             TutorResponse? TutorResponse;
+            MapPacientesToPacientesResponse Mapping = new MapPacientesToPacientesResponse();
             if (Tutor == null)
             {
                 TutorResponse = null;
@@ -31,7 +32,7 @@ namespace Application.Service
                 {
                     TutorId = Tutor.TutorId,
                     UsuarioId = Tutor.UsuarioId,
-                    PacientesResPonse = MapPacientesToPacientesResponse.Map(Tutor.Pacientes),
+                    PacientesResPonse = Mapping.Map(Tutor.Pacientes),
                     CertUniDisc = Tutor.CertUniDisc,
                 };
             }
@@ -52,13 +53,14 @@ namespace Application.Service
         public async Task<TutorResponse?> PutTutor(int Id, TutorDTO TutorDTO) 
         {
             Tutor? Tutor = await TutorCommand.PutTutor(Id, TutorDTO);
+            MapPacientesToPacientesResponse Mapping = new MapPacientesToPacientesResponse();
             if (Tutor != null)
             {
                 TutorResponse TutorResponse = new TutorResponse
                 {
                     TutorId = Tutor.TutorId,
                     UsuarioId = Tutor.UsuarioId,
-                    PacientesResPonse = MapPacientesToPacientesResponse.Map(Tutor.Pacientes),
+                    PacientesResPonse = Mapping.Map(Tutor.Pacientes),
                     CertUniDisc = Tutor.CertUniDisc,
                 };
                 return TutorResponse;
@@ -69,13 +71,14 @@ namespace Application.Service
         public async Task<TutorResponse?> DeleteTutor(int Id) 
         {
             Tutor? Tutor = await TutorCommand.DeleteTutor(Id);
+            MapPacientesToPacientesResponse Mapping = new MapPacientesToPacientesResponse();
             if (Tutor != null)
             {
                 TutorResponse TutorResponse = new TutorResponse
                 {
                     TutorId = Tutor.TutorId,
                     UsuarioId = Tutor.UsuarioId,
-                    PacientesResPonse = MapPacientesToPacientesResponse.Map(Tutor.Pacientes),
+                    PacientesResPonse = Mapping.Map(Tutor.Pacientes),
                     CertUniDisc = Tutor.CertUniDisc,
                 };
                 return TutorResponse;
@@ -88,6 +91,7 @@ namespace Application.Service
         {
             List<Tutor> ListaTutor = await TutorQuery.GetAllTutor();
             List<TutorResponse> ListaTutorResponse = new List<TutorResponse>();
+            MapPacientesToPacientesResponse Mapping = new MapPacientesToPacientesResponse();
             TutorResponse TutorResponse;
             foreach (Tutor Tutor in ListaTutor)
             {
@@ -95,7 +99,7 @@ namespace Application.Service
                 {
                     TutorId = Tutor.TutorId,
                     UsuarioId = Tutor.UsuarioId,
-                    PacientesResPonse = MapPacientesToPacientesResponse.Map(Tutor.Pacientes),
+                    PacientesResPonse = Mapping.Map(Tutor.Pacientes),
                     CertUniDisc = Tutor.CertUniDisc
                 };
                 ListaTutorResponse.Add(TutorResponse);
