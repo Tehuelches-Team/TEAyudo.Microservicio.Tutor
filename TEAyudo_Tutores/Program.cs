@@ -1,6 +1,7 @@
 using Application.Interface;
 using Application.Interface.Pacientes;
 using Application.Service;
+using Application.Service.Tutores;
 using Infrastructure.Command;
 using Infrastructure.Query;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,8 @@ builder.Services.AddTransient<ITutorQuery, TutorQuery>();
 builder.Services.AddTransient<IPacienteService, PacienteService>();
 builder.Services.AddTransient<IPacienteCommand, PacienteCommand>();
 builder.Services.AddTransient<IPacienteQuery, PacienteQuery>();
+
+builder.Services.AddTransient<IFiltrarUsuariosTutores, FiltrarUsuariosTutores>();
 
 
 

@@ -18,8 +18,8 @@ namespace Infrastructure.Command
 
         public async Task<bool> AddTutor(Tutor Tutor)
         {
-            Context.Tutores.AddAsync(Tutor);
-            Context.SaveChanges();
+            await Context.Tutores.AddAsync(Tutor);
+            await Context.SaveChangesAsync();
             return true;
         }
 

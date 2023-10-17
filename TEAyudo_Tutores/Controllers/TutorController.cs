@@ -1,8 +1,10 @@
 ﻿using Application.DTO;
 using Application.Interface;
 using Application.Model.Response;
+using Azure.Core;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-
+using RestSharp;
 
 namespace TEAyudo.Controllers
 {
@@ -11,15 +13,18 @@ namespace TEAyudo.Controllers
     public class TutorController : ControllerBase
     {
         private readonly ITutorService TutorService;
+        private readonly IFiltrarUsuariosTutores FiltrarUsuariosTutores;
 
-        public TutorController(ITutorService TutorService)
+        public TutorController(ITutorService TutorService, IFiltrarUsuariosTutores FiltrarUsuariosTutores)
         {
             this.TutorService = TutorService;
+            this.FiltrarUsuariosTutores= FiltrarUsuariosTutores;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllTutor()
         {
+
             List<TutorResponse> ListaTutorResponse = await TutorService.GetAllTutor();
             if (ListaTutorResponse.Count == 0)
             {
@@ -29,13 +34,26 @@ namespace TEAyudo.Controllers
                 };
                 return Ok(ObjetoAnonimo);
             }
-            return Ok(ListaTutorResponse);
+
+            //var Client = new RestClient("https://localhost:7174");
+            List<UsuarioResponse> List = new List<UsuarioResponse>();
+            foreach (var item in ListaTutorResponse)
+            {
+                var Client = new RestClient("https://localhost:7174");
+                var Result = await Client.GetJsonAsync<UsuarioResponse>("/api/Usuario/" + item.UsuarioId);
+                List.Add(Result);
+            }
+            //var Result = await Client.GetJsonAsync<List<UsuarioResponse>>("/api/Usuario");
+            List = FiltrarUsuariosTutores.Filtrar(ListaTutorResponse,List);
+
+            return Ok(List);
         }
 
         [HttpGet("{Id}")]
         public async Task<ActionResult> GetTutorById(int Id)
         {
             TutorResponse? Tutor = await TutorService.GetTutorById(Id);
+
             if (Tutor == null)
             {
                 var ObejetoAnonimo = new
@@ -44,7 +62,14 @@ namespace TEAyudo.Controllers
                 };
                 return NotFound(ObejetoAnonimo);
             }
-            return Ok(Tutor);
+            List<TutorResponse> ListTutor = new List<TutorResponse>();
+            ListTutor.Add(Tutor);
+            var Client = new RestClient("https://localhost:7174");
+            var Result = await Client.GetJsonAsync<UsuarioResponse>("/api/Usuario/" + Tutor.UsuarioId);
+            List<UsuarioResponse> List = new List<UsuarioResponse>();
+            List.Add(Result);
+            List = FiltrarUsuariosTutores.Filtrar(ListTutor,List);
+            return Ok(List);
         }
 
         [HttpPost]
@@ -94,6 +119,5 @@ namespace TEAyudo.Controllers
             }
             return Ok(TutorResponse);
         }
-
     }
 }
