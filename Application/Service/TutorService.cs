@@ -1,6 +1,7 @@
 ﻿using Application.DTO;
 using Application.Interface;
 using Application.Mapping;
+using Application.Model.DTO;
 using Application.Model.Response;
 using Domain.Entities;
 
@@ -39,15 +40,27 @@ namespace Application.Service
             return TutorResponse;
         }
 
-        public async Task<bool> AddTutor(TutorDTO TutorDTO)
+        public async Task<bool> AddTutor(FullUsuarioTutorDTO FullUsuarioTutorDTO)
         {
+
             Tutor Tutor = new Tutor
             {
-                UsuarioId = TutorDTO.UsuarioId,
+                UsuarioId = FullUsuarioTutorDTO.UsuarioId,
                 Pacientes = new List<Paciente>(),
-                CertUniDisc = TutorDTO.CertUniDisc
+                CertUniDisc = FullUsuarioTutorDTO.CertUniDisc
             };
-            return await TutorCommand.AddTutor(Tutor);
+            UsuarioDTO UsuarioDTO = new UsuarioDTO
+            {
+                Nombre = FullUsuarioTutorDTO.Nombre,
+                Apellido = FullUsuarioTutorDTO.Apellido,
+                CorreoElectronico = FullUsuarioTutorDTO.CorreoElectronico,
+                Contrasena = FullUsuarioTutorDTO.Contrasena,
+                FotoPerfil = FullUsuarioTutorDTO.FotoPerfil,
+                Domicilio = FullUsuarioTutorDTO.Domicilio,
+                FechaNacimiento = FullUsuarioTutorDTO.FechaNacimiento
+            };
+
+            return await TutorCommand.AddTutor(Tutor, UsuarioDTO);
         }
 
         public async Task<TutorResponse?> PutTutor(int Id, TutorDTO TutorDTO)

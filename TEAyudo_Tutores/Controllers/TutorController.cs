@@ -1,10 +1,12 @@
 ﻿using Application.DTO;
 using Application.Interface;
+using Application.Model.DTO;
 using Application.Model.Response;
 using Azure.Core;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using RestSharp;
+using System.Collections.Generic;
 
 namespace TEAyudo.Controllers
 {
@@ -35,22 +37,29 @@ namespace TEAyudo.Controllers
                 return Ok(ObjetoAnonimo);
             }
 
-            //var Client = new RestClient("https://localhost:7174");
-            List<UsuarioResponse> List = new List<UsuarioResponse>();
-            foreach (var item in ListaTutorResponse)
-            {
-                var Client = new RestClient("https://localhost:7174");
-                var Result = await Client.GetJsonAsync<UsuarioResponse>("/api/Usuario/" + item.UsuarioId);
-                List.Add(Result);
-            }
-            //var Result = await Client.GetJsonAsync<List<UsuarioResponse>>("/api/Usuario");
-            List = FiltrarUsuariosTutores.Filtrar(ListaTutorResponse,List);
+            var Client = new RestClient("https://localhost:7174");
+            List<UsuarioResponse> Result = await Client.GetJsonAsync<List<UsuarioResponse>>("/api/Usuario");
+            List<FullUsuarioResponse> FinalList = FiltrarUsuariosTutores.Filtrar(ListaTutorResponse, Result);
 
-            return Ok(List);
+            //List<UsuarioResponse> List = new List<UsuarioResponse>();
+            //foreach (var item in ListaTutorResponse)
+            //{
+            //    var Client = new RestClient("https://localhost:5002");
+            //    var Result = await Client.GetJsonAsync<UsuarioResponse>("/api/Usuario/" + item.UsuarioId);
+            //    List.Add(Result);
+            //}
+            //List = FiltrarUsuariosTutores.Filtrar(ListaTutorResponse,List);
+
+            return Ok(FinalList);
         }
 
+
+
+
+
+
         [HttpGet("{Id}")]
-        public async Task<ActionResult> GetTutorById(int Id)
+        public async Task<IActionResult> GetTutorById(int Id)
         {
             TutorResponse? Tutor = await TutorService.GetTutorById(Id);
 
@@ -68,14 +77,14 @@ namespace TEAyudo.Controllers
             var Result = await Client.GetJsonAsync<UsuarioResponse>("/api/Usuario/" + Tutor.UsuarioId);
             List<UsuarioResponse> List = new List<UsuarioResponse>();
             List.Add(Result);
-            List = FiltrarUsuariosTutores.Filtrar(ListTutor,List);
-            return Ok(List);
+            List<FullUsuarioResponse> ListFinal = FiltrarUsuariosTutores.Filtrar(ListTutor,List);
+            return Ok(ListFinal);
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostTutor(TutorDTO TutorDTO)
+        public async Task<ActionResult> PostTutor(FullUsuarioTutorDTO FullUsuarioTutorDTO)
         {
-            bool Resultado = await TutorService.AddTutor(TutorDTO);
+            bool Resultado = await TutorService.AddTutor(FullUsuarioTutorDTO);
             if (Resultado)
             {
                 return new JsonResult("Tutor aniadido exitosamente") { StatusCode = 201 };
@@ -89,6 +98,9 @@ namespace TEAyudo.Controllers
                 return BadRequest(ObjetoAnonimo);
             }
         }
+
+
+
 
         [HttpPut("{Id}")]
         public async Task<IActionResult> PutTutor(int Id, TutorDTO TutorDTO)
@@ -104,6 +116,10 @@ namespace TEAyudo.Controllers
             }
             return new JsonResult(TutorResponse) { StatusCode = 201 };
         }
+
+
+
+
 
         [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteTutor(int Id)

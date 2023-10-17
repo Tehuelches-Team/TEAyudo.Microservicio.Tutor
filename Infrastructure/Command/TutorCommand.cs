@@ -1,7 +1,10 @@
 ﻿using Application.DTO;
 using Application.Interface;
+using Application.Model.DTO;
+using Application.Model.Response;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using RestSharp;
 using TEAyudo_Tutores;
 
 namespace Infrastructure.Command
@@ -16,8 +19,12 @@ namespace Infrastructure.Command
         }
 
 
-        public async Task<bool> AddTutor(Tutor Tutor)
+        public async Task<bool> AddTutor(Tutor Tutor, UsuarioDTO UsuarioDTO)
         {
+            var Client = new RestClient("https://localhost:7174");
+
+            UsuarioResponse Result = await Client.GetJsonAsync<UsuarioResponse>("/api/Usuario", UsuarioDTO);
+
             await Context.Tutores.AddAsync(Tutor);
             await Context.SaveChangesAsync();
             return true;

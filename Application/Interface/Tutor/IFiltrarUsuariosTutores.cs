@@ -9,6 +9,6 @@ namespace Application.Interface
 {
     public interface IFiltrarUsuariosTutores
     {
-        List<UsuarioResponse> Filtrar(List<TutorResponse> ListaTutores, List<UsuarioResponse> ListaUsuarios);
+        List<FullUsuarioResponse> Filtrar(List<TutorResponse> ListaTutores, List<UsuarioResponse> ListaUsuarios);
     }
 }
