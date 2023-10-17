@@ -8,5 +8,7 @@ namespace Application.Interface.Pacientes
         Task<List<PacienteResponse>> GetPacientes();
         Task<PacienteResponse?> GetPacienteById(int Id);
         Task<PacienteResponse?> PostPaciente(PacienteDTO PacienteDTO);
+        Task<PacienteResponse?> PutPaciente(int Id, PacienteDTO PacienteDTO);
+        Task DeletePaciente(int Id);
     }
 }

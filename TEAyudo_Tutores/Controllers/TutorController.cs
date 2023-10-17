@@ -18,10 +18,10 @@ namespace TEAyudo.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllTutor() 
+        public async Task<IActionResult> GetAllTutor()
         {
             List<TutorResponse> ListaTutorResponse = await TutorService.GetAllTutor();
-            if (ListaTutorResponse.Count == 0) 
+            if (ListaTutorResponse.Count == 0)
             {
                 var ObjetoAnonimo = new
                 {
@@ -31,7 +31,7 @@ namespace TEAyudo.Controllers
             }
             return Ok(ListaTutorResponse);
         }
-        
+
         [HttpGet("{Id}")]
         public async Task<ActionResult> GetTutorById(int Id)
         {
@@ -66,10 +66,10 @@ namespace TEAyudo.Controllers
         }
 
         [HttpPut("{Id}")]
-        public async Task<IActionResult> PutTutor(int Id, TutorDTO TutorDTO) 
+        public async Task<IActionResult> PutTutor(int Id, TutorDTO TutorDTO)
         {
             TutorResponse? TutorResponse = await TutorService.PutTutor(Id, TutorDTO);
-            if (TutorResponse == null) 
+            if (TutorResponse == null)
             {
                 var ObjetoAnonimo = new
                 {
@@ -77,14 +77,13 @@ namespace TEAyudo.Controllers
                 };
                 return new JsonResult(ObjetoAnonimo) { StatusCode = 404 };
             }
-            return new JsonResult(TutorResponse) { StatusCode = 201};
+            return new JsonResult(TutorResponse) { StatusCode = 201 };
         }
 
         [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteTutor(int Id)
         {
             TutorResponse? TutorResponse = await TutorService.DeleteTutor(Id);
-
             if (TutorResponse == null)
             {
                 var ObjetoAnonimo = new

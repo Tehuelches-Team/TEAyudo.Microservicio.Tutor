@@ -50,7 +50,7 @@ namespace Application.Service
             return await TutorCommand.AddTutor(Tutor);
         }
 
-        public async Task<TutorResponse?> PutTutor(int Id, TutorDTO TutorDTO) 
+        public async Task<TutorResponse?> PutTutor(int Id, TutorDTO TutorDTO)
         {
             Tutor? Tutor = await TutorCommand.PutTutor(Id, TutorDTO);
             MapPacientesToPacientesResponse Mapping = new MapPacientesToPacientesResponse();
@@ -68,7 +68,7 @@ namespace Application.Service
             return null;
         }
 
-        public async Task<TutorResponse?> DeleteTutor(int Id) 
+        public async Task<TutorResponse?> DeleteTutor(int Id)
         {
             Tutor? Tutor = await TutorCommand.DeleteTutor(Id);
             MapPacientesToPacientesResponse Mapping = new MapPacientesToPacientesResponse();
@@ -87,7 +87,7 @@ namespace Application.Service
         }
 
 
-        public async Task<List<TutorResponse>> GetAllTutor() 
+        public async Task<List<TutorResponse>> GetAllTutor()
         {
             List<Tutor> ListaTutor = await TutorQuery.GetAllTutor();
             List<TutorResponse> ListaTutorResponse = new List<TutorResponse>();

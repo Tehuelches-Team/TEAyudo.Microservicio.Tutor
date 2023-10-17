@@ -9,7 +9,7 @@ namespace Infrastructure.Query
     {
         private readonly TEAyudoContext Context;
 
-        public PacienteQuery (TEAyudoContext Context ) 
+        public PacienteQuery(TEAyudoContext Context)
         {
             this.Context = Context;
         }

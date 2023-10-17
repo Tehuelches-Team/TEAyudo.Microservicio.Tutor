@@ -1,5 +1,4 @@
-﻿using Application.Model.Response;
-using Domain.Entities;
+﻿using Domain.Entities;
 
 namespace Application.Interface.Pacientes
 {

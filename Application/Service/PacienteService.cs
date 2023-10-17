@@ -1,5 +1,4 @@
 ﻿using Application.DTO;
-using Application.Interface;
 using Application.Interface.Pacientes;
 using Application.Mapping;
 using Application.Model.Response;
@@ -30,7 +29,7 @@ namespace Application.Service
         {
             Paciente? Paciente = await PacienteQuery.GetPacienteById(Id);
             MapPacienteToPacienteResponse Mapping = new MapPacienteToPacienteResponse();
-            if (Paciente != null) 
+            if (Paciente != null)
             {
                 return Mapping.Map(Paciente);
             }
@@ -40,14 +39,35 @@ namespace Application.Service
         public async Task<PacienteResponse?> PostPaciente(PacienteDTO PacienteDTO)
         {
             MapPacienteDTOToPaciente Mapping = new MapPacienteDTOToPaciente();
-            Paciente Pac = Mapping.Map(PacienteDTO); 
+            Paciente Pac = Mapping.Map(PacienteDTO);
             Paciente? Paciente = await PacienteCommand.PostPaciente(Pac);
-            if (Paciente != null) 
+            if (Paciente != null)
             {
                 MapPacienteToPacienteResponse Mapping2 = new MapPacienteToPacienteResponse();
                 return Mapping2.Map(Paciente);
             }
             return null;
         }
+
+        public async Task<PacienteResponse?> PutPaciente(int Id, PacienteDTO PacienteDTO)
+        {
+            MapPacienteDTOToPaciente Mapping = new MapPacienteDTOToPaciente();
+            Paciente? Pac = Mapping.Map(PacienteDTO);
+            Pac.PacienteId = Id;
+            Paciente? Pac2 = await PacienteCommand.PutPaciente(Pac);
+            if (Pac2 != null)
+            {
+                MapPacienteToPacienteResponse Mapping2 = new MapPacienteToPacienteResponse();
+                PacienteResponse PacienteResponse = Mapping2.Map(Pac2);
+                return PacienteResponse;
+            }
+            return null;
+        }
+
+        public async Task DeletePaciente(int Id)
+        {
+            await PacienteCommand.DeletePaciente(Id);
+        }
+
     }
 }
