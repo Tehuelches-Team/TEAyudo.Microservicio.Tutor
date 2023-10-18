@@ -15,7 +15,8 @@ namespace Application.Mapping
                 FechaNacimiento = Paciente.FechaNacimiento,
                 DiagnosticoTEA = Paciente.DiagnosticoTEA,
                 Sexo = Paciente.DiagnosticoTEA,
-                TutorId = Paciente.TutorId
+                TutorId = Paciente.TutorId,
+                CertUniDisc = Paciente.CertUniDisc,
             };
         }
     }

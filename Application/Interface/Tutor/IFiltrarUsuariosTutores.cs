@@ -1,4 +1,5 @@
 ﻿using Application.Model.Response;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace Application.Interface
 {
     public interface IFiltrarUsuariosTutores
     {
-        List<FullUsuarioResponse> Filtrar(List<TutorResponse> ListaTutores, List<UsuarioResponse> ListaUsuarios);
+        List<FullUsuarioResponse> Filtrar(List<Tutor> ListaTutores, List<UsuarioResponse> ListaUsuarios);
+        FullUsuarioResponse Filtrar(Tutor Tutor, UsuarioResponse Usuario);
     }
 }

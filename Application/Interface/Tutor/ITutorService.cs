@@ -6,10 +6,10 @@ namespace Application.Interface
 {
     public interface ITutorService
     {
-        Task<List<TutorResponse>> GetAllTutor();
-        Task<TutorResponse?> GetTutorById(int Id);
+        Task<List<FullUsuarioResponse?>> GetAllTutor();
+        Task<FullUsuarioResponse?> GetTutorById(int Id);
         Task<bool> AddTutor(FullUsuarioTutorDTO FullUsuarioTutorDTO);
-        Task<TutorResponse?> PutTutor(int Id, TutorDTO TutorDTO);
-        Task<TutorResponse?> DeleteTutor(int Id);
+        Task<FullUsuarioResponse?> PutTutor(int Id, FullUsuarioTutorDTO FullUsuarioTutorDTO);
+        Task<FullUsuarioResponse?> DeleteTutor(int Id);
     }
 }

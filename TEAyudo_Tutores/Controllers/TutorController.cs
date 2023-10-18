@@ -1,7 +1,9 @@
 ﻿using Application.DTO;
+using Application.Exceptions;
 using Application.Interface;
 using Application.Model.DTO;
 using Application.Model.Response;
+using Application.Service.Tutores;
 using Azure.Core;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -11,57 +13,37 @@ using System.Collections.Generic;
 namespace TEAyudo.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController] 
     public class TutorController : ControllerBase
     {
         private readonly ITutorService TutorService;
-        private readonly IFiltrarUsuariosTutores FiltrarUsuariosTutores;
 
-        public TutorController(ITutorService TutorService, IFiltrarUsuariosTutores FiltrarUsuariosTutores)
+        public TutorController(ITutorService TutorService)
         {
             this.TutorService = TutorService;
-            this.FiltrarUsuariosTutores= FiltrarUsuariosTutores;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllTutor()
         {
 
-            List<TutorResponse> ListaTutorResponse = await TutorService.GetAllTutor();
-            if (ListaTutorResponse.Count == 0)
+            List<FullUsuarioResponse?> ListaTutorResponse = await TutorService.GetAllTutor();
+            if (ListaTutorResponse == null)
             {
                 var ObjetoAnonimo = new
                 {
                     Mensaje = "La lista esta vacia."
                 };
-                return Ok(ObjetoAnonimo);
+                return new JsonResult(ObjetoAnonimo) { StatusCode = 204} ;
             }
 
-            var Client = new RestClient("https://localhost:7174");
-            List<UsuarioResponse> Result = await Client.GetJsonAsync<List<UsuarioResponse>>("/api/Usuario");
-            List<FullUsuarioResponse> FinalList = FiltrarUsuariosTutores.Filtrar(ListaTutorResponse, Result);
-
-            //List<UsuarioResponse> List = new List<UsuarioResponse>();
-            //foreach (var item in ListaTutorResponse)
-            //{
-            //    var Client = new RestClient("https://localhost:5002");
-            //    var Result = await Client.GetJsonAsync<UsuarioResponse>("/api/Usuario/" + item.UsuarioId);
-            //    List.Add(Result);
-            //}
-            //List = FiltrarUsuariosTutores.Filtrar(ListaTutorResponse,List);
-
-            return Ok(FinalList);
+            return Ok(ListaTutorResponse);
         }
-
-
-
-
-
 
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetTutorById(int Id)
         {
-            TutorResponse? Tutor = await TutorService.GetTutorById(Id);
+            FullUsuarioResponse? Tutor = await TutorService.GetTutorById(Id);
 
             if (Tutor == null)
             {
@@ -71,14 +53,8 @@ namespace TEAyudo.Controllers
                 };
                 return NotFound(ObejetoAnonimo);
             }
-            List<TutorResponse> ListTutor = new List<TutorResponse>();
-            ListTutor.Add(Tutor);
-            var Client = new RestClient("https://localhost:7174");
-            var Result = await Client.GetJsonAsync<UsuarioResponse>("/api/Usuario/" + Tutor.UsuarioId);
-            List<UsuarioResponse> List = new List<UsuarioResponse>();
-            List.Add(Result);
-            List<FullUsuarioResponse> ListFinal = FiltrarUsuariosTutores.Filtrar(ListTutor,List);
-            return Ok(ListFinal);
+
+            return Ok(Tutor);
         }
 
         [HttpPost]
@@ -93,43 +69,54 @@ namespace TEAyudo.Controllers
             {
                 var ObjetoAnonimo = new
                 {
-                    Mensaje = "No se ha podido crear el tutor."
+                    Mensaje = "No se ha podido crear el tutor debido a que ya existe una cuenta asociada al correo electronico ingresado."
                 };
-                return BadRequest(ObjetoAnonimo);
+                return Conflict(ObjetoAnonimo);
             }
         }
 
-
-
-
         [HttpPut("{Id}")]
-        public async Task<IActionResult> PutTutor(int Id, TutorDTO TutorDTO)
+        public async Task<IActionResult> PutTutor(int Id, FullUsuarioTutorDTO FullUsuarioTutorDTO)
         {
-            TutorResponse? TutorResponse = await TutorService.PutTutor(Id, TutorDTO);
-            if (TutorResponse == null)
+            try
+            {
+                FullUsuarioResponse? TutorResponse = await TutorService.PutTutor(Id, FullUsuarioTutorDTO);
+                if (TutorResponse == null)
+                {
+                    var ObjetoAnonimo = new
+                    {
+                        Mensaje = "No se ha encontrado el tutor a actualizar."
+                    };
+                    return new JsonResult(ObjetoAnonimo) { StatusCode = 404 };
+                }
+                return new JsonResult(TutorResponse) { StatusCode = 201 };
+            }catch (ConflictoException ex)
             {
                 var ObjetoAnonimo = new
                 {
-                    Mensaje = "No se ha encontrado el tutor a actualizar."
+                    Mensaje = ex.Message
                 };
-                return new JsonResult(ObjetoAnonimo) { StatusCode = 404 };
+                return Conflict(ObjetoAnonimo);
+            }catch (FormatException ex) 
+            {
+                var ObjetoAnonimo = new
+                {
+                    Mensaje = ex.Message
+                };
+                return BadRequest(ObjetoAnonimo);
             }
-            return new JsonResult(TutorResponse) { StatusCode = 201 };
+            
         }
-
-
-
-
 
         [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteTutor(int Id)
         {
-            TutorResponse? TutorResponse = await TutorService.DeleteTutor(Id);
+            FullUsuarioResponse? TutorResponse = await TutorService.DeleteTutor(Id);
             if (TutorResponse == null)
             {
                 var ObjetoAnonimo = new
                 {
-                    Mensaje = "No se ha encontrado el tutor a eiminar."
+                    Mensaje = "No se ha encontrado el tutor a eliminar."
                 };
                 return NotFound(ObjetoAnonimo);
             }

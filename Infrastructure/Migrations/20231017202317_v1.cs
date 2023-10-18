@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class roko : Migration
+    public partial class v1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,8 +17,7 @@ namespace Infrastructure.Migrations
                 {
                     TutorId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UsuarioId = table.Column<int>(type: "int", nullable: false),
-                    CertUniDisc = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    UsuarioId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,6 +35,7 @@ namespace Infrastructure.Migrations
                     FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DiagnosticoTEA = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sexo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CertUniDisc = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TutorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

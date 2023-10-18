@@ -3,6 +3,7 @@ using Application.Interface;
 using Application.Mapping;
 using Application.Model.DTO;
 using Application.Model.Response;
+using Application.Service.Tutores;
 using Domain.Entities;
 
 namespace Application.Service
@@ -11,33 +12,25 @@ namespace Application.Service
     {
         private readonly ITutorQuery TutorQuery;
         private readonly ITutorCommand TutorCommand;
+        private readonly IFiltrarUsuariosTutores FiltrarUsuariosTutores;
 
-        public TutorService(ITutorQuery TutorQuery, ITutorCommand TutorCommand)
+        public TutorService(ITutorQuery TutorQuery, ITutorCommand TutorCommand, IFiltrarUsuariosTutores FiltrarUsuariosTutores)
         {
             this.TutorQuery = TutorQuery;
             this.TutorCommand = TutorCommand;
+            this.FiltrarUsuariosTutores = FiltrarUsuariosTutores;
         }
 
-        public async Task<TutorResponse?> GetTutorById(int Id)
+        public async Task<FullUsuarioResponse?> GetTutorById(int Id)
         {
             Tutor? Tutor = await TutorQuery.GetTutorById(Id);
-            TutorResponse? TutorResponse;
-            MapPacientesToPacientesResponse Mapping = new MapPacientesToPacientesResponse();
             if (Tutor == null)
             {
-                TutorResponse = null;
+                return null;
             }
-            else
-            {
-                TutorResponse = new TutorResponse
-                {
-                    TutorId = Tutor.TutorId,
-                    UsuarioId = Tutor.UsuarioId,
-                    PacientesResPonse = Mapping.Map(Tutor.Pacientes),
-                    CertUniDisc = Tutor.CertUniDisc,
-                };
-            }
-            return TutorResponse;
+            UsuarioResponse Result = await TutorQuery.GetUsuarioById(Tutor.UsuarioId);
+            FullUsuarioResponse UsuarioFinal = FiltrarUsuariosTutores.Filtrar(Tutor, Result);
+            return UsuarioFinal;
         }
 
         public async Task<bool> AddTutor(FullUsuarioTutorDTO FullUsuarioTutorDTO)
@@ -45,9 +38,7 @@ namespace Application.Service
 
             Tutor Tutor = new Tutor
             {
-                UsuarioId = FullUsuarioTutorDTO.UsuarioId,
-                Pacientes = new List<Paciente>(),
-                CertUniDisc = FullUsuarioTutorDTO.CertUniDisc
+                Pacientes = new List<Paciente>(), //Ver como setear el UsuarioId
             };
             UsuarioDTO UsuarioDTO = new UsuarioDTO
             {
@@ -63,63 +54,66 @@ namespace Application.Service
             return await TutorCommand.AddTutor(Tutor, UsuarioDTO);
         }
 
-        public async Task<TutorResponse?> PutTutor(int Id, TutorDTO TutorDTO)
+        public async Task<FullUsuarioResponse?> PutTutor(int Id, FullUsuarioTutorDTO FullUsuarioTutorDTO)
         {
-            Tutor? Tutor = await TutorCommand.PutTutor(Id, TutorDTO);
-            MapPacientesToPacientesResponse Mapping = new MapPacientesToPacientesResponse();
-            if (Tutor != null)
+            Tutor? Tutor = await TutorQuery.GetTutorById(Id);
+            if (Tutor == null)
             {
-                TutorResponse TutorResponse = new TutorResponse
-                {
-                    TutorId = Tutor.TutorId,
-                    UsuarioId = Tutor.UsuarioId,
-                    PacientesResPonse = Mapping.Map(Tutor.Pacientes),
-                    CertUniDisc = Tutor.CertUniDisc,
-                };
-                return TutorResponse;
+                return null;
             }
-            return null;
+            //UsuarioDTO UsuarioDTO = Usar los mapping que estan al pedo ;
+            UsuarioDTO UsuarioDTO = new UsuarioDTO
+            {
+                Nombre = FullUsuarioTutorDTO.Nombre,
+                Apellido = FullUsuarioTutorDTO.Apellido,
+                Contrasena = FullUsuarioTutorDTO.Contrasena,
+                CorreoElectronico = FullUsuarioTutorDTO.CorreoElectronico,
+                Domicilio = FullUsuarioTutorDTO.Domicilio,
+                FechaNacimiento = FullUsuarioTutorDTO.FechaNacimiento,
+                FotoPerfil = FullUsuarioTutorDTO.FotoPerfil,
+            };
+            UsuarioResponse Usuario = await TutorCommand.PutUsuario(Tutor.UsuarioId, UsuarioDTO);
+            //Tutor = await TutorCommand.PutTutor(Id,TutorDTO);
+            FullUsuarioResponse UsuarioFinal = FiltrarUsuariosTutores.Filtrar(Tutor, Usuario);
+            return UsuarioFinal;
         }
 
-        public async Task<TutorResponse?> DeleteTutor(int Id)
+        public async Task<FullUsuarioResponse?> DeleteTutor(int Id)
         {
             Tutor? Tutor = await TutorCommand.DeleteTutor(Id);
-            MapPacientesToPacientesResponse Mapping = new MapPacientesToPacientesResponse();
-            if (Tutor != null)
+            if (Tutor == null)
             {
-                TutorResponse TutorResponse = new TutorResponse
-                {
-                    TutorId = Tutor.TutorId,
-                    UsuarioId = Tutor.UsuarioId,
-                    PacientesResPonse = Mapping.Map(Tutor.Pacientes),
-                    CertUniDisc = Tutor.CertUniDisc,
-                };
-                return TutorResponse;
+                return null;
             }
-            return null;
+
+            UsuarioResponse Usuario = await TutorCommand.DeleteUsuario(Tutor.UsuarioId);
+            //MapPacientesToPacientesResponse Mapping = new MapPacientesToPacientesResponse();
+            //if (Tutor != null)
+            //{
+            //    TutorResponse TutorResponse = new TutorResponse
+            //    {
+            //        TutorId = Tutor.TutorId,
+            //        UsuarioId = Tutor.UsuarioId,
+            //        PacientesResPonse = Mapping.Map(Tutor.Pacientes),
+            //    };
+            //    return TutorResponse;
+            //}
+            //return null;
+            FullUsuarioResponse UsuarioFinal = FiltrarUsuariosTutores.Filtrar(Tutor, Usuario);
+            return UsuarioFinal;
         }
 
 
-        public async Task<List<TutorResponse>> GetAllTutor()
-        {
-            List<Tutor> ListaTutor = await TutorQuery.GetAllTutor();
-            List<TutorResponse> ListaTutorResponse = new List<TutorResponse>();
-            MapPacientesToPacientesResponse Mapping = new MapPacientesToPacientesResponse();
-            TutorResponse TutorResponse;
-            foreach (Tutor Tutor in ListaTutor)
+        public async Task<List<FullUsuarioResponse?>> GetAllTutor()
+        {  
+            List<Tutor> ListaTutor = await TutorQuery.GetAllTutores();
+            if (ListaTutor.Count == 0)
             {
-                TutorResponse = new TutorResponse
-                {
-                    TutorId = Tutor.TutorId,
-                    UsuarioId = Tutor.UsuarioId,
-                    PacientesResPonse = Mapping.Map(Tutor.Pacientes),
-                    CertUniDisc = Tutor.CertUniDisc
-                };
-                ListaTutorResponse.Add(TutorResponse);
+                return null;
             }
-            return ListaTutorResponse;
+            List<UsuarioResponse> ListaUsuarioResponse = await TutorQuery.GetAllUsuarios();
+            List<FullUsuarioResponse> FinalList = FiltrarUsuariosTutores.Filtrar(ListaTutor, ListaUsuarioResponse);
+            return FinalList;
         }
-
-
     }
 }

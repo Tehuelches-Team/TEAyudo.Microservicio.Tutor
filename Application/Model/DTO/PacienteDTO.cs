@@ -8,4 +8,5 @@ public class PacienteDTO
     public DateTime FechaNacimiento { get; set; }
     public string DiagnosticoTEA { get; set; }
     public string Sexo { get; set; }
+    public string CertUniDisc { get; set; }
 }

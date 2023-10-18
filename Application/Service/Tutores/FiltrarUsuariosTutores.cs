@@ -1,5 +1,6 @@
 ﻿using Application.Interface;
 using Application.Model.Response;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +11,15 @@ namespace Application.Service.Tutores
 {
     public class FiltrarUsuariosTutores : IFiltrarUsuariosTutores
     {
-        public List<FullUsuarioResponse> Filtrar(List<TutorResponse> ListaTutores, List<UsuarioResponse> ListaUsuarios)
+        public List<FullUsuarioResponse> Filtrar(List<Tutor> ListaTutores, List<UsuarioResponse> ListaUsuarios)
         {
-            FullUsuarioResponse Full;
             List<FullUsuarioResponse> Result = new List<FullUsuarioResponse>();
             foreach (var Tutor in ListaTutores)
             {
                 foreach (var Usuario in ListaUsuarios) {
                     if (Tutor.UsuarioId == Usuario.UsuarioId) 
                     {
-                        Full = new FullUsuarioResponse
+                        Result.Add(new FullUsuarioResponse
                         {
                             TutorId = Tutor.TutorId,
                             UsuarioId = Tutor.UsuarioId,
@@ -31,13 +31,29 @@ namespace Application.Service.Tutores
                             Domicilio = Usuario.Domicilio,
                             FechaNacimiento = Usuario.FechaNacimiento,
                             EstadoUsuarioId  = Usuario.EstadoUsuarioId
-                        };
-                        Result.Add(Full);
+                        });
                     } 
                 }
             }
-
             return Result;
         }
+
+        public FullUsuarioResponse Filtrar(Tutor Tutor, UsuarioResponse Usuario)
+        {
+            return new FullUsuarioResponse
+            {
+                TutorId = Tutor.TutorId,
+                UsuarioId = Tutor.UsuarioId,
+                Nombre = Usuario.Nombre,
+                Apellido = Usuario.Apellido,
+                CorreoElectronico = Usuario.CorreoElectronico,
+                Contrasena = Usuario.Contrasena,
+                FotoPerfil = Usuario.FotoPerfil,
+                Domicilio = Usuario.Domicilio,
+                FechaNacimiento = Usuario.FechaNacimiento,
+                EstadoUsuarioId = Usuario.EstadoUsuarioId
+            };
+        }
+
     }
 }

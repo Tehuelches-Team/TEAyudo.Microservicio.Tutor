@@ -14,7 +14,8 @@ namespace Application.Mapping
                 FechaNacimiento = PacienteDTO.FechaNacimiento,
                 DiagnosticoTEA = PacienteDTO.DiagnosticoTEA,
                 Sexo = PacienteDTO.Sexo,
-                TutorId = PacienteDTO.TutorId
+                TutorId = PacienteDTO.TutorId,
+                CertUniDisc = PacienteDTO.CertUniDisc,
             };
             return Pac;
         }
