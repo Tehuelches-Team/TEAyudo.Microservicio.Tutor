@@ -86,7 +86,7 @@ namespace Infrastructure.Command
         {
             var Client = new RestClient("https://localhost:7174");
             var Request = new RestRequest("/api/Usuario/" + Id, Method.Delete);
-            var Result = await Client.ExecuteAsync<UsuarioResponse>(Request);
+            var Result = await Client.ExecuteAsync(Request);
             UsuarioResponse Response = JsonSerializer.Deserialize<UsuarioResponse>(Result.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             return Response;
         }
