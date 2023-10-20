@@ -3,10 +3,9 @@ using Application.Interface;
 using Application.Mapping;
 using Application.Model.DTO;
 using Application.Model.Response;
-using Application.Service.Tutores;
 using Domain.Entities;
 
-namespace Application.Service
+namespace Application.Service.Tutores
 {
     public class TutorService : ITutorService
     {
@@ -33,25 +32,14 @@ namespace Application.Service
             return UsuarioFinal;
         }
 
-        public async Task<bool> AddTutor(FullUsuarioTutorDTO FullUsuarioTutorDTO)
+        public async Task<bool> AddTutor(TutorDTO TutorDTO)
         {
-
             Tutor Tutor = new Tutor
             {
+                UsuarioId = TutorDTO.UsuarioId,
                 Pacientes = new List<Paciente>(), //Ver como setear el UsuarioId
             };
-            UsuarioDTO UsuarioDTO = new UsuarioDTO
-            {
-                Nombre = FullUsuarioTutorDTO.Nombre,
-                Apellido = FullUsuarioTutorDTO.Apellido,
-                CorreoElectronico = FullUsuarioTutorDTO.CorreoElectronico,
-                Contrasena = FullUsuarioTutorDTO.Contrasena,
-                FotoPerfil = FullUsuarioTutorDTO.FotoPerfil,
-                Domicilio = FullUsuarioTutorDTO.Domicilio,
-                FechaNacimiento = FullUsuarioTutorDTO.FechaNacimiento
-            };
-
-            return await TutorCommand.AddTutor(Tutor, UsuarioDTO);
+            return await TutorCommand.AddTutor(Tutor);
         }
 
         public async Task<FullUsuarioResponse?> PutTutor(int Id, FullUsuarioTutorDTO FullUsuarioTutorDTO)
@@ -62,18 +50,11 @@ namespace Application.Service
                 return null;
             }
             //UsuarioDTO UsuarioDTO = Usar los mapping que estan al pedo ;
-            UsuarioDTO UsuarioDTO = new UsuarioDTO
-            {
-                Nombre = FullUsuarioTutorDTO.Nombre,
-                Apellido = FullUsuarioTutorDTO.Apellido,
-                Contrasena = FullUsuarioTutorDTO.Contrasena,
-                CorreoElectronico = FullUsuarioTutorDTO.CorreoElectronico,
-                Domicilio = FullUsuarioTutorDTO.Domicilio,
-                FechaNacimiento = FullUsuarioTutorDTO.FechaNacimiento,
-                FotoPerfil = FullUsuarioTutorDTO.FotoPerfil,
-            };
+            MapFullToUsuarioDTO Mapping = new MapFullToUsuarioDTO();
+
+            UsuarioDTO UsuarioDTO = Mapping.Map(FullUsuarioTutorDTO);
             UsuarioResponse Usuario = await TutorCommand.PutUsuario(Tutor.UsuarioId, UsuarioDTO);
-            //Tutor = await TutorCommand.PutTutor(Id,TutorDTO);
+            //Tutor = await TutorCommand.PutTutor(Id,TutorDTO); //para cuando agregemos campos que se puedan cambiar en tutor
             FullUsuarioResponse UsuarioFinal = FiltrarUsuariosTutores.Filtrar(Tutor, Usuario);
             return UsuarioFinal;
         }
@@ -105,7 +86,7 @@ namespace Application.Service
 
 
         public async Task<List<FullUsuarioResponse?>> GetAllTutor()
-        {  
+        {
             List<Tutor> ListaTutor = await TutorQuery.GetAllTutores();
             if (ListaTutor.Count == 0)
             {

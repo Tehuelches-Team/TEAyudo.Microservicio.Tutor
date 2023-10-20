@@ -47,7 +47,7 @@ namespace Infrastructure.Command
             }
         }
 
-        public async Task DeletePaciente(int Id) 
+        public async Task DeletePaciente(int Id)
         {
             Paciente Paciente = await Context.Pacientes.FirstOrDefaultAsync(f => f.PacienteId == Id);
             Context.Pacientes.Remove(Paciente);

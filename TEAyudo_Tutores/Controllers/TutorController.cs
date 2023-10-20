@@ -3,17 +3,12 @@ using Application.Exceptions;
 using Application.Interface;
 using Application.Model.DTO;
 using Application.Model.Response;
-using Application.Service.Tutores;
-using Azure.Core;
-using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using RestSharp;
-using System.Collections.Generic;
 
 namespace TEAyudo.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController] 
+    [ApiController]
     public class TutorController : ControllerBase
     {
         private readonly ITutorService TutorService;
@@ -34,7 +29,7 @@ namespace TEAyudo.Controllers
                 {
                     Mensaje = "La lista esta vacia."
                 };
-                return new JsonResult(ObjetoAnonimo) { StatusCode = 204} ;
+                return new JsonResult(ObjetoAnonimo) { StatusCode = 204 };
             }
 
             return Ok(ListaTutorResponse);
@@ -58,21 +53,21 @@ namespace TEAyudo.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostTutor(FullUsuarioTutorDTO FullUsuarioTutorDTO)
+        public async Task<ActionResult> PostTutor(TutorDTO TutorDTO)
         {
-            bool Resultado = await TutorService.AddTutor(FullUsuarioTutorDTO);
-            if (Resultado)
-            {
-                return new JsonResult("Tutor aniadido exitosamente") { StatusCode = 201 };
-            }
-            else
-            {
-                var ObjetoAnonimo = new
-                {
-                    Mensaje = "No se ha podido crear el tutor debido a que ya existe una cuenta asociada al correo electronico ingresado."
-                };
-                return Conflict(ObjetoAnonimo);
-            }
+            bool Resultado = await TutorService.AddTutor(TutorDTO);
+            //if (Resultado)
+            //{
+            return new JsonResult("Tutor aniadido exitosamente") { StatusCode = 201 };
+            //}
+            //else
+            //{
+            //    var ObjetoAnonimo = new
+            //    {
+            //        Mensaje = "No se ha podido crear el tutor debido a que ya existe una cuenta asociada al correo electronico ingresado."
+            //    };
+            //    return Conflict(ObjetoAnonimo);
+            //}
         }
 
         [HttpPut("{Id}")]
@@ -90,14 +85,16 @@ namespace TEAyudo.Controllers
                     return new JsonResult(ObjetoAnonimo) { StatusCode = 404 };
                 }
                 return new JsonResult(TutorResponse) { StatusCode = 201 };
-            }catch (ConflictoException ex)
+            }
+            catch (ConflictoException ex)
             {
                 var ObjetoAnonimo = new
                 {
                     Mensaje = ex.Message
                 };
                 return Conflict(ObjetoAnonimo);
-            }catch (FormatException ex) 
+            }
+            catch (FormatException ex)
             {
                 var ObjetoAnonimo = new
                 {
@@ -105,7 +102,7 @@ namespace TEAyudo.Controllers
                 };
                 return BadRequest(ObjetoAnonimo);
             }
-            
+
         }
 
         [HttpDelete("{Id}")]

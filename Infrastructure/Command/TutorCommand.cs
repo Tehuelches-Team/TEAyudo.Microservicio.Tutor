@@ -1,14 +1,14 @@
 ﻿using Application.DTO;
+using Application.Exceptions;
 using Application.Interface;
 using Application.Model.DTO;
 using Application.Model.Response;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using RestSharp;
+using System.Net;
 using System.Text.Json;
 using TEAyudo_Tutores;
-using System.Net;
-using Application.Exceptions;
 
 namespace Infrastructure.Command
 {
@@ -22,21 +22,11 @@ namespace Infrastructure.Command
         }
 
 
-        public async Task<bool> AddTutor(Tutor Tutor, UsuarioDTO UsuarioDTO)
+        public async Task<bool> AddTutor(Tutor Tutor)
         {
-            var Client = new RestClient("https://localhost:7174");
-            var Request = new RestRequest("/api/Usuario");
-            Request.AddJsonBody(UsuarioDTO);
-            var Result = await Client.ExecutePostAsync<UsuarioResponse>(Request);
-            UsuarioResponse response = JsonSerializer.Deserialize<UsuarioResponse>(Result.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            if (Result.StatusCode == HttpStatusCode.Created)
-            {
-                Tutor.UsuarioId = response.UsuarioId;
-                await Context.Tutores.AddAsync(Tutor);
-                await Context.SaveChangesAsync();
-                return true;
-            };
-            return false;
+            await Context.Tutores.AddAsync(Tutor);
+            await Context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<Tutor?> PutTutor(int Id, TutorDTO TutorDTO)

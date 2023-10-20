@@ -7,7 +7,7 @@ namespace Application.Interface
 {
     public interface ITutorCommand
     {
-        Task<bool> AddTutor(Tutor Tutor, UsuarioDTO UsuarioDTO);
+        Task<bool> AddTutor(Tutor Tutor);
         Task<Tutor?> PutTutor(int Id, TutorDTO TutorDTO);
         Task<UsuarioResponse?> PutUsuario(int Id, UsuarioDTO UsuarioDTO);
         Task<Tutor?> DeleteTutor(int Id);

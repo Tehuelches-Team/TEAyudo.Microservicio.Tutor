@@ -93,10 +93,10 @@ namespace TEAyudo_Tutores.Controllers
 
 
         [HttpDelete("{Id}")]
-        public async Task<ActionResult> DeletePaciente(int Id) 
+        public async Task<ActionResult> DeletePaciente(int Id)
         {
             PacienteResponse? PacienteResponse = await PacienteService.GetPacienteById(Id);
-            if (PacienteResponse == null) 
+            if (PacienteResponse == null)
             {
                 var ObjetoAnonimo = new
                 {

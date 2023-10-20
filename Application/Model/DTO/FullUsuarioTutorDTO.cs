@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.Model.DTO
+﻿namespace Application.Model.DTO
 {
     public class FullUsuarioTutorDTO
     {
+        public int UsuarioId { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string CorreoElectronico { get; set; }
@@ -15,5 +10,6 @@ namespace Application.Model.DTO
         public string FotoPerfil { get; set; }
         public string Domicilio { get; set; }
         public string FechaNacimiento { get; set; }
+        public string CertUniDisc { get; set; }
     }
 }

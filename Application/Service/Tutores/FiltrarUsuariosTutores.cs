@@ -1,11 +1,6 @@
 ﻿using Application.Interface;
 using Application.Model.Response;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Service.Tutores
 {
@@ -16,8 +11,9 @@ namespace Application.Service.Tutores
             List<FullUsuarioResponse> Result = new List<FullUsuarioResponse>();
             foreach (var Tutor in ListaTutores)
             {
-                foreach (var Usuario in ListaUsuarios) {
-                    if (Tutor.UsuarioId == Usuario.UsuarioId) 
+                foreach (var Usuario in ListaUsuarios)
+                {
+                    if (Tutor.UsuarioId == Usuario.UsuarioId)
                     {
                         Result.Add(new FullUsuarioResponse
                         {
@@ -30,9 +26,9 @@ namespace Application.Service.Tutores
                             FotoPerfil = Usuario.FotoPerfil,
                             Domicilio = Usuario.Domicilio,
                             FechaNacimiento = Usuario.FechaNacimiento,
-                            EstadoUsuarioId  = Usuario.EstadoUsuarioId
+                            EstadoUsuarioId = Usuario.EstadoUsuarioId
                         });
-                    } 
+                    }
                 }
             }
             return Result;
