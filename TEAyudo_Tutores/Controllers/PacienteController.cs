@@ -23,7 +23,11 @@ namespace TEAyudo_Tutores.Controllers
             List<PacienteResponse> ListaResponse = await PacienteService.GetPacientes();
             if (ListaResponse.Count == 0)
             {
-                return NoContent(); //codigo 204 realizada correctamente pero sin contenido devuelto
+                var ObjetoAnonimo = new
+                {
+                    Mensaje = "No se encontraron pacientes."
+                };
+                return NotFound(); //codigo 204 realizada correctamente pero sin contenido devuelto
             }
             return Ok(ListaResponse);
         }

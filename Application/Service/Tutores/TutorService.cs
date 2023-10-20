@@ -88,7 +88,7 @@ namespace Application.Service.Tutores
         public async Task<List<FullUsuarioResponse?>> GetAllTutor()
         {
             List<Tutor>? ListaTutor = await TutorQuery.GetAllTutores();
-            if (ListaTutor == null)
+            if (ListaTutor.Count == 0)
             {
                 return null;
             }

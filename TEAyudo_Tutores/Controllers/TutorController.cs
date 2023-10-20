@@ -29,7 +29,7 @@ namespace TEAyudo.Controllers
                 {
                     Mensaje = "La lista esta vacia."
                 };
-                return new JsonResult(ObjetoAnonimo) { StatusCode = 204 };
+                return new JsonResult(ObjetoAnonimo) { StatusCode = 404 };
             }
 
             return Ok(ListaTutorResponse);
