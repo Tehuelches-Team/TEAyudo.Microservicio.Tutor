@@ -6,7 +6,7 @@ namespace Application.Interface
 {
     public interface ITutorService
     {
-        Task<List<FullUsuarioResponse?>> GetAllTutor();
+        Task<List<FullUsuarioResponse>>? GetAllTutor();
         Task<FullUsuarioResponse?> GetTutorById(int Id);
         Task<bool> AddTutor(TutorDTO TutorDTO);
         Task<FullUsuarioResponse?> PutTutor(int Id, FullUsuarioTutorDTO FullUsuarioTutorDTO);

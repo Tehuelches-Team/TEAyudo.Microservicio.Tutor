@@ -7,7 +7,7 @@ namespace Application.Interface
     {
         Task<Tutor?> GetTutorById(int Id);
         Task<List<Tutor>> GetAllTutores();
-        Task<List<UsuarioResponse>> GetAllUsuarios();
-        Task<UsuarioResponse> GetUsuarioById(int Id);
+        Task<List<UsuarioResponse>>? GetAllUsuarios();
+        Task<UsuarioResponse?> GetUsuarioById(int Id);
     }
 }

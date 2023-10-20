@@ -2,8 +2,10 @@
 using Application.Model.Response;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using RestSharp;
 using TEAyudo_Tutores;
+using System.Text.Json;
 
 namespace Infrastructure.Query
 {
@@ -34,7 +36,14 @@ namespace Infrastructure.Query
         public async Task<List<UsuarioResponse>> GetAllUsuarios()
         {
             var Client = new RestClient("https://localhost:7174");
-            return await Client.GetJsonAsync<List<UsuarioResponse>>("/api/Usuario");
+            var Resquest = new RestRequest("/api/Usuario");
+            RestResponse Response = await Client.ExecuteGetAsync(Resquest);
+            //return await Client.GetJsonAsync<List<UsuarioResponse>>("/api/Usuario");
+            if (Response.StatusCode == HttpStatusCode.NotFound) 
+            {
+                return null;
+            }
+            return JsonSerializer.Deserialize<List<UsuarioResponse>>(Response.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
 
         public async Task<UsuarioResponse> GetUsuarioById(int Id)
