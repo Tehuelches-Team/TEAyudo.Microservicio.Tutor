@@ -3,9 +3,9 @@ using Application.Interface.Pacientes;
 using Application.Service;
 using Application.Service.Tutores;
 using Infrastructure.Command;
+using Infrastructure.Persistence;
 using Infrastructure.Query;
 using Microsoft.EntityFrameworkCore;
-using TEAyudo_Tutores;
 
 var builder = WebApplication.CreateBuilder(args);
 

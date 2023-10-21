@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace TEAyudo_Tutores;
+namespace Infrastructure.Persistence;
 public class TEAyudoContext : DbContext
 {
 
@@ -19,7 +19,7 @@ public class TEAyudoContext : DbContext
             entity.ToTable("Tutor");
             entity.HasKey(t => t.TutorId);
             entity.Property(t => t.TutorId);
-            entity.HasMany<Paciente>(t => t.Pacientes)
+            entity.HasMany(t => t.Pacientes)
                 .WithOne(p => p.Tutor)
                 .HasForeignKey(p => p.TutorId);
 

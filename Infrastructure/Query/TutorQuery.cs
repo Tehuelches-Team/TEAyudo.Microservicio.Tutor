@@ -4,8 +4,8 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using RestSharp;
-using TEAyudo_Tutores;
 using System.Text.Json;
+using Infrastructure.Persistence;
 
 namespace Infrastructure.Query
 {
