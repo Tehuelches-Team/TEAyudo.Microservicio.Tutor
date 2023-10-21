@@ -17,6 +17,7 @@ namespace Application.Service.Tutores
                     {
                         Result.Add(new FullUsuarioResponse
                         {
+                            CUIL = Usuario.CUIL,
                             TutorId = Tutor.TutorId,
                             UsuarioId = Tutor.UsuarioId,
                             Nombre = Usuario.Nombre,
@@ -38,6 +39,7 @@ namespace Application.Service.Tutores
         {
             return new FullUsuarioResponse
             {
+                CUIL = Usuario.CUIL,
                 TutorId = Tutor.TutorId,
                 UsuarioId = Tutor.UsuarioId,
                 Nombre = Usuario.Nombre,

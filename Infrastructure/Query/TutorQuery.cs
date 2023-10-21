@@ -1,11 +1,11 @@
 ﻿using Application.Interface;
 using Application.Model.Response;
 using Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using System.Net;
-using RestSharp;
-using System.Text.Json;
 using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+using RestSharp;
+using System.Net;
+using System.Text.Json;
 
 namespace Infrastructure.Query
 {
@@ -39,7 +39,7 @@ namespace Infrastructure.Query
             var Resquest = new RestRequest("/api/Usuario");
             RestResponse Response = await Client.ExecuteGetAsync(Resquest);
             //return await Client.GetJsonAsync<List<UsuarioResponse>>("/api/Usuario");
-            if (Response.StatusCode == HttpStatusCode.NotFound) 
+            if (Response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }
