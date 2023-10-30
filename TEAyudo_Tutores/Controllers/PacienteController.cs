@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Domain.Entities;
-using TEAyudo_Tutores.Application.DTO;
-using TEAyudo_Tutores;
+﻿using Application.DTO;
+using Application.Interface.Pacientes;
+using Application.Model.Response;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TEAyudo_Tutores.Controllers
 {
@@ -13,156 +9,107 @@ namespace TEAyudo_Tutores.Controllers
     [ApiController]
     public class PacienteController : ControllerBase
     {
-        private readonly TEAyudoContext _context;
+        private readonly IPacienteService PacienteService;
 
-        public PacienteController(TEAyudoContext context)
+        public PacienteController(IPacienteService PacienteService)
         {
-            _context = context;
+            this.PacienteService = PacienteService;
         }
 
         // GET: api/pacientes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PacienteDTO>>> GetPacientes()
+        public async Task<IActionResult> GetPacientes()
         {
-            // Implementa lógica para obtener todos los pacientes y mapearlos a PacienteDTO
-            var pacientes = await _context.Pacientes.ToListAsync();
-            var pacientesDTO = pacientes.Select(MapPacienteToPacienteDTO);
-            return Ok(pacientesDTO);
+            List<PacienteResponse> ListaResponse = await PacienteService.GetPacientes();
+            if (ListaResponse.Count == 0)
+            {
+                var ObjetoAnonimo = new
+                {
+                    Mensaje = "No se encontraron pacientes."
+                };
+                return NotFound(); //codigo 204 realizada correctamente pero sin contenido devuelto
+            }
+            return Ok(ListaResponse);
         }
+
 
         // GET: api/pacientes/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<PacienteDTO>> GetPaciente(int id)
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetPaciente(int Id)
         {
-            // Implementa lógica para obtener un paciente por su ID y mapearlo a PacienteDTO
-            var paciente = await _context.Pacientes.FindAsync(id);
-
-            if (paciente == null)
+            PacienteResponse? PacienteResponse = await PacienteService.GetPacienteById(Id);
+            if (PacienteResponse == null)
             {
-                return NotFound();
+                var ObjetoAnonimo = new
+                {
+                    Mensaje = "No se encontro el paciente con el ID indicado."
+                };
+                return NotFound(ObjetoAnonimo);
             }
-
-            var pacienteDTO = MapPacienteToPacienteDTO(paciente);
-            return Ok(pacienteDTO);
-        }
-
-
-        [HttpGet("{id}/pacientes")]
-        public async Task<ActionResult<IEnumerable<PacienteDTO>>> GetPacientesByTutorId(int id)
-        {
-            var pacientes = await _context.Pacientes
-                .Where(p => p.TutorId == id)
-                .ToListAsync();
-
-            if (pacientes == null)
-            {
-                return NotFound();
-            }
-
-            // Mapea los pacientes a PacienteDTO
-            var pacientesDTO = pacientes.Select(p => MapPacienteToPacienteDTO(p)).ToList();
-
-            return pacientesDTO;
+            return Ok(PacienteResponse);
         }
 
 
         // POST: api/pacientes
         [HttpPost]
-        public async Task<ActionResult<PacienteDTO>> PostPaciente(PacienteDTO pacienteDTO)
+        public async Task<IActionResult> PostPaciente(PacienteDTO PacienteDTO)
         {
-            // Implementa lógica para crear un nuevo paciente a partir de PacienteDTO y guardarlo en la base de datos
-            var paciente = MapPacienteDTOToPaciente(pacienteDTO);
-            _context.Pacientes.Add(paciente);
-            await _context.SaveChangesAsync();
-
-            // Mapea el paciente creado a PacienteDTO y devuelve CreatedAtAction
-            pacienteDTO = MapPacienteToPacienteDTO(paciente);
-            return CreatedAtAction("GetPaciente", new { id = paciente.PacienteId }, pacienteDTO);
+            PacienteResponse? PacienteResponse = await PacienteService.PostPaciente(PacienteDTO);
+            if (PacienteResponse == null)
+            {
+                var ObjetoAnonimo = new
+                {
+                    Mensaje = "No se ha podido crear el paciente por que no se encontro un tutor con el ID = " + PacienteDTO.TutorId
+                };
+                return Conflict(ObjetoAnonimo);
+            }
+            return new JsonResult(PacienteResponse) { StatusCode = 201 };
         }
 
+
         // PUT: api/pacientes/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPaciente(int id, PacienteDTO pacienteDTO)
+        [HttpPut("{Id}")]
+        public async Task<ActionResult> PutPaciente(int Id, PacienteDTO PacienteDTO)
         {
-            // Implementa lógica para actualizar un paciente por su ID a partir de PacienteDTO
-            if (id != pacienteDTO.PacienteId)
+            PacienteResponse? PacienteResponse = await PacienteService.GetPacienteById(Id);
+            if (PacienteResponse != null)
             {
-                return BadRequest();
-            }
-
-            var paciente = MapPacienteDTOToPaciente(pacienteDTO);
-
-            _context.Entry(paciente).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PacienteExists(id))
+                PacienteResponse = await PacienteService.PutPaciente(Id, PacienteDTO);
+                if (PacienteResponse != null)
                 {
-                    return NotFound();
+                    return new JsonResult(PacienteResponse) { StatusCode = 201 };
                 }
                 else
                 {
-                    throw;
+                    var ObjetoAnonimo = new
+                    {
+                        Mensaje = "No se ha podido crear el paciente por que no se encontro un tutor con el ID " + PacienteDTO.TutorId
+                    };
+                    return Conflict(ObjetoAnonimo);
                 }
             }
-
-            return NoContent();
+            var ObjetoAnonimo2 = new
+            {
+                Mensaje = "No se ha encontrado al usuario con el ID " + Id
+            };
+            return new JsonResult(ObjetoAnonimo2) { StatusCode = 404 };
         }
 
-        // DELETE: api/pacientes/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePaciente(int id)
+
+        [HttpDelete("{Id}")]
+        public async Task<ActionResult> DeletePaciente(int Id)
         {
-            // Implementa lógica para eliminar un paciente por su ID
-            var paciente = await _context.Pacientes.FindAsync(id);
-            if (paciente == null)
+            PacienteResponse? PacienteResponse = await PacienteService.GetPacienteById(Id);
+            if (PacienteResponse == null)
             {
-                return NotFound();
+                var ObjetoAnonimo = new
+                {
+                    Mensaje = "No se ha podido encontrar el paciente con el ID " + Id
+                };
+                return NotFound(ObjetoAnonimo);
             }
-
-            _context.Pacientes.Remove(paciente);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool PacienteExists(int id)
-        {
-            // Implementa lógica para verificar si un paciente existe por su ID
-            return _context.Pacientes.Any(e => e.PacienteId == id);
-        }
-
-        private PacienteDTO MapPacienteToPacienteDTO(Paciente paciente)
-        {
-            return new PacienteDTO
-            {
-                PacienteId = paciente.PacienteId,
-                Nombre = paciente.Nombre,
-                Apellido = paciente.Apellido,
-                FechaNacimiento = paciente.FechaNacimiento,
-                DiagnosticoTEA = paciente.DiagnosticoTEA,
-                Sexo = paciente.Sexo,
-                TutorId = paciente.TutorId
-            };
-        }
-
-
-        private Paciente MapPacienteDTOToPaciente(PacienteDTO pacienteDTO)
-        {
-            return new Paciente
-            {
-                PacienteId = pacienteDTO.PacienteId,
-                Nombre = pacienteDTO.Nombre,
-                Apellido = pacienteDTO.Apellido,
-                FechaNacimiento = pacienteDTO.FechaNacimiento,
-                DiagnosticoTEA = pacienteDTO.DiagnosticoTEA,
-                Sexo = pacienteDTO.Sexo,
-                TutorId = pacienteDTO.TutorId
-            };
+            await PacienteService.DeletePaciente(Id);
+            return new JsonResult(PacienteResponse) { StatusCode = 200 };
         }
     }
 }

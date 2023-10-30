@@ -1,9 +1,9 @@
-﻿using Domain.Entities;
+﻿using Application.DTO;
+using Application.Exceptions;
+using Application.Interface;
+using Application.Model.DTO;
+using Application.Model.Response;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TEAyudo_Tutores;
-using TEAyudo_Tutores.Application.DTO;
-
 
 namespace TEAyudo.Controllers
 {
@@ -11,118 +11,113 @@ namespace TEAyudo.Controllers
     [ApiController]
     public class TutorController : ControllerBase
     {
-        private readonly TEAyudoContext _context;
+        private readonly ITutorService TutorService;
 
-        public TutorController(TEAyudoContext context)
+        public TutorController(ITutorService TutorService)
         {
-            _context = context;
+            this.TutorService = TutorService;
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TutorDTO>> GetTutorById(int id)
+        [HttpGet]
+        public async Task<IActionResult> GetAllTutor()
         {
-            var tutor = await _context.Tutores.FindAsync(id);
 
-            if (tutor == null)
+            List<FullUsuarioResponse?> ListaTutorResponse = await TutorService.GetAllTutor();
+            if (ListaTutorResponse == null)
             {
-                return NotFound();
+                var ObjetoAnonimo = new
+                {
+                    Mensaje = "La lista esta vacia."
+                };
+                return new JsonResult(ObjetoAnonimo) { StatusCode = 404 };
             }
 
-            // Mapea el tutor a TutorDTO
-            var tutorDTO = MapTutorToTutorDTO(tutor);
+            return Ok(ListaTutorResponse);
+        }
 
-            return tutorDTO;
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetTutorById(int Id)
+        {
+            FullUsuarioResponse? Tutor = await TutorService.GetTutorById(Id);
+
+            if (Tutor == null)
+            {
+                var ObejetoAnonimo = new
+                {
+                    Mensaje = "No se encontro el tutor."
+                };
+                return NotFound(ObejetoAnonimo);
+            }
+
+            return Ok(Tutor);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Tutor>> PostTutor(TutorDTO tutorDTO)
+        public async Task<ActionResult> PostTutor(TutorDTO TutorDTO)
         {
-            var tutor = new Tutor
-            {
-                TutorId = tutorDTO.TutorId,
-                UsuarioId = tutorDTO.UsuarioId,
-                CertUniDisc = tutorDTO.CertUniDisc
-            };
-
-            _context.Tutores.Add(tutor);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTutor", new { id = tutor.TutorId }, tutor);
+            bool Resultado = await TutorService.AddTutor(TutorDTO);
+            //if (Resultado)
+            //{
+            return new JsonResult("Tutor aniadido exitosamente") { StatusCode = 201 };
+            //}
+            //else
+            //{
+            //    var ObjetoAnonimo = new
+            //    {
+            //        Mensaje = "No se ha podido crear el tutor debido a que ya existe una cuenta asociada al correo electronico ingresado."
+            //    };
+            //    return Conflict(ObjetoAnonimo);
+            //}
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTutor(int id, TutorDTO tutorDTO) 
+        [HttpPut("{Id}")]
+        public async Task<IActionResult> PutTutor(int Id, FullUsuarioTutorDTO FullUsuarioTutorDTO)
         {
-            if (id != tutorDTO.TutorId)
-            {
-                return BadRequest();
-            }
-
-            var tutor = new Tutor
-            {
-                TutorId = tutorDTO.TutorId,
-                UsuarioId = tutorDTO.UsuarioId,
-                CertUniDisc = tutorDTO.CertUniDisc
-                
-            };
-
-            _context.Entry(tutor).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TutorExists(id))
+                FullUsuarioResponse? TutorResponse = await TutorService.PutTutor(Id, FullUsuarioTutorDTO);
+                if (TutorResponse == null)
                 {
-                    return NotFound();
+                    var ObjetoAnonimo = new
+                    {
+                        Mensaje = "No se ha encontrado el tutor a actualizar."
+                    };
+                    return new JsonResult(ObjetoAnonimo) { StatusCode = 404 };
                 }
-                else
+                return new JsonResult(TutorResponse) { StatusCode = 201 };
+            }
+            catch (ConflictoException ex)
+            {
+                var ObjetoAnonimo = new
                 {
-                    throw;
-                }
+                    Mensaje = ex.Message
+                };
+                return Conflict(ObjetoAnonimo);
+            }
+            catch (FormatException ex)
+            {
+                var ObjetoAnonimo = new
+                {
+                    Mensaje = ex.Message
+                };
+                return BadRequest(ObjetoAnonimo);
             }
 
-            return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTutor(int id)
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> DeleteTutor(int Id)
         {
-            var tutor = await _context.Tutores.FindAsync(id);
-            if (tutor == null)
+            FullUsuarioResponse? TutorResponse = await TutorService.DeleteTutor(Id);
+            if (TutorResponse == null)
             {
-                return NotFound();
+                var ObjetoAnonimo = new
+                {
+                    Mensaje = "No se ha encontrado el tutor a eliminar."
+                };
+                return NotFound(ObjetoAnonimo);
             }
-
-            _context.Tutores.Remove(tutor);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok(TutorResponse);
         }
-
-        private bool TutorExists(int id)
-        {
-            return _context.Tutores.Any(e => e.TutorId == id);
-        }
-
-        private TutorDTO MapTutorToTutorDTO(Tutor tutor)
-        {
-            if (tutor == null)
-            {
-                return null;
-            }
-
-            var tutorDTO = new TutorDTO
-            {
-                TutorId = tutor.TutorId,
-                UsuarioId = tutor.UsuarioId,
-                CertUniDisc = tutor.CertUniDisc
-            };
-
-            return tutorDTO;
-        }
-
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace Domain.Entities
+﻿namespace Application.Model.Response
 {
-    public class Paciente
+    public class PacienteResponse
     {
         public int PacienteId { get; set; }
         public string Nombre { get; set; }
@@ -8,8 +8,7 @@
         public DateTime FechaNacimiento { get; set; }
         public string DiagnosticoTEA { get; set; }
         public string Sexo { get; set; }
-        public string CertUniDisc { get; set; }
         public int TutorId { get; set; }
-        public Tutor Tutor { get; set; }
+        public string CertUniDisc { get; set; }
     }
 }
