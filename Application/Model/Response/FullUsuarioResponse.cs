@@ -3,6 +3,7 @@
     public class FullUsuarioResponse
     {
         public int TutorId { get; set; }
+        public int CUIL { get; set; }
         public int UsuarioId { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }

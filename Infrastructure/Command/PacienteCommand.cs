@@ -1,7 +1,7 @@
 ﻿using Application.Interface.Pacientes;
 using Domain.Entities;
+using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using TEAyudo_Tutores;
 
 namespace Infrastructure.Command
 {

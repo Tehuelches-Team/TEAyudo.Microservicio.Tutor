@@ -4,11 +4,11 @@ using Application.Interface;
 using Application.Model.DTO;
 using Application.Model.Response;
 using Domain.Entities;
+using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using RestSharp;
 using System.Net;
 using System.Text.Json;
-using TEAyudo_Tutores;
 
 namespace Infrastructure.Command
 {
