@@ -12,7 +12,7 @@ using TEAyudo_Tutores;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(TEAyudoContext))]
-    [Migration("20231017202317_v1")]
+    [Migration("20231030194656_v1")]
     partial class v1
     {
         /// <inheritdoc />
