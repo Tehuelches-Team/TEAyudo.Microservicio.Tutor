@@ -8,7 +8,7 @@ namespace Application.Interface
     {
         Task<List<FullUsuarioResponse>>? GetAllTutor();
         Task<FullUsuarioResponse?> GetTutorById(int Id);
-        Task<bool> AddTutor(TutorDTO TutorDTO);
+        Task<int> AddTutor(TutorDTO TutorDTO);
         Task<FullUsuarioResponse?> PutTutor(int Id, FullUsuarioTutorDTO FullUsuarioTutorDTO);
         Task<FullUsuarioResponse?> DeleteTutor(int Id);
     }
