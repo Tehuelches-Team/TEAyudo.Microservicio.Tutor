@@ -32,7 +32,12 @@ namespace Application.Service.Tutores
             return UsuarioFinal;
         }
 
-        public async Task<bool> AddTutor(TutorDTO TutorDTO)
+
+
+
+
+
+        public async Task<int> AddTutor(TutorDTO TutorDTO)
         {
             Tutor Tutor = new Tutor
             {
@@ -41,6 +46,12 @@ namespace Application.Service.Tutores
             };
             return await TutorCommand.AddTutor(Tutor);
         }
+
+
+
+
+
+
 
         public async Task<FullUsuarioResponse?> PutTutor(int Id, FullUsuarioTutorDTO FullUsuarioTutorDTO)
         {

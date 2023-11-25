@@ -22,11 +22,11 @@ namespace Infrastructure.Command
         }
 
 
-        public async Task<bool> AddTutor(Tutor Tutor)
+        public async Task<int> AddTutor(Tutor Tutor)
         {
             await Context.Tutores.AddAsync(Tutor);
             await Context.SaveChangesAsync();
-            return true;
+            return Tutor.TutorId;
         }
 
         public async Task<Tutor?> PutTutor(int Id, TutorDTO TutorDTO)

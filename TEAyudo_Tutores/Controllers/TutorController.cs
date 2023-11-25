@@ -52,23 +52,52 @@ namespace TEAyudo.Controllers
             return Ok(Tutor);
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         [HttpPost]
         public async Task<ActionResult> PostTutor(TutorDTO TutorDTO)
         {
-            bool Resultado = await TutorService.AddTutor(TutorDTO);
-            //if (Resultado)
-            //{
-            return new JsonResult("Tutor aniadido exitosamente") { StatusCode = 201 };
-            //}
-            //else
-            //{
-            //    var ObjetoAnonimo = new
-            //    {
-            //        Mensaje = "No se ha podido crear el tutor debido a que ya existe una cuenta asociada al correo electronico ingresado."
-            //    };
-            //    return Conflict(ObjetoAnonimo);
-            //}
+            int Resultado = await TutorService.AddTutor(TutorDTO);
+
+            var ObjetoAnonimo = new
+            {
+                TutorId = Resultado
+            };
+
+
+            return new JsonResult(ObjetoAnonimo) { StatusCode = 201 };
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         [HttpPut("{Id}")]
         public async Task<IActionResult> PutTutor(int Id, FullUsuarioTutorDTO FullUsuarioTutorDTO)
