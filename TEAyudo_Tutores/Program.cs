@@ -33,8 +33,7 @@ builder.Services.AddTransient<IPacienteQuery, PacienteQuery>();
 
 builder.Services.AddTransient<IFiltrarUsuariosTutores, FiltrarUsuariosTutores>();
 
-
-
+builder.Services.AddCors(x => x.AddDefaultPolicy(c => c.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));
 
 var app = builder.Build();
 
@@ -44,7 +43,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
