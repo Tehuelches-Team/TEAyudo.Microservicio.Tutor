@@ -55,7 +55,7 @@ namespace Infrastructure.Query
         public async Task<int> GetTutorByUsuarioId(int Id)
         {
             Tutor? tutor = await Context.Tutores.FirstOrDefaultAsync(s => s.UsuarioId == Id);
-            return tutor.UsuarioId;
+            return tutor.TutorId;
         }
     }
 }
