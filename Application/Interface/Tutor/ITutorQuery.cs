@@ -9,5 +9,6 @@ namespace Application.Interface
         Task<List<Tutor>> GetAllTutores();
         Task<List<UsuarioResponse>>? GetAllUsuarios();
         Task<UsuarioResponse?> GetUsuarioById(int Id);
+        Task<int> GetTutorByUsuarioId(int Id);
     }
 }

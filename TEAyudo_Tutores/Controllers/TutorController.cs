@@ -53,7 +53,18 @@ namespace TEAyudo.Controllers
         }
 
 
-
+        [HttpGet("Id/{UsuarioId}")]
+        public async Task<IActionResult> GetAcompananteId(int UsuarioId)
+        {
+            int? response = await TutorService.GetTutorIdbyUsuarioId(UsuarioId);
+            if (response == null)
+            {
+                var Respuesta = new { Motivo = "No se encontraron tutores registrados." };
+                return NotFound(Respuesta);
+            }
+            var tutor = new { Id = response };
+            return Ok(tutor);
+        }
 
 
 

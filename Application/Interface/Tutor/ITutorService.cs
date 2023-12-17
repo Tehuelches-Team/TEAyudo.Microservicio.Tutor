@@ -11,5 +11,6 @@ namespace Application.Interface
         Task<int> AddTutor(TutorDTO TutorDTO);
         Task<FullUsuarioResponse?> PutTutor(int Id, FullUsuarioTutorDTO FullUsuarioTutorDTO);
         Task<FullUsuarioResponse?> DeleteTutor(int Id);
+        Task<int> GetTutorIdbyUsuarioId(int UsuarioId);
     }
 }
