@@ -51,5 +51,11 @@ namespace Infrastructure.Query
             var Client = new RestClient("https://localhost:7174");
             return await Client.GetJsonAsync<UsuarioResponse>("/api/Usuario/" + Id);
         }
+
+        public async Task<int> GetTutorByUsuarioId(int Id)
+        {
+            Tutor? tutor = await Context.Tutores.FirstOrDefaultAsync(s => s.UsuarioId == Id);
+            return tutor.TutorId;
+        }
     }
 }

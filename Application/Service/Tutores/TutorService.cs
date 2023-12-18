@@ -98,5 +98,11 @@ namespace Application.Service.Tutores
             List<FullUsuarioResponse> FinalList = FiltrarUsuariosTutores.Filtrar(ListaTutor, ListaUsuarioResponse);
             return FinalList;
         }
+
+        public Task<int> GetTutorIdbyUsuarioId(int UsuarioId)
+        {
+            return TutorQuery.GetTutorByUsuarioId(UsuarioId);
+        }
+
     }
 }
