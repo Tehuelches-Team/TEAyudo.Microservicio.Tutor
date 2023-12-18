@@ -42,7 +42,7 @@ namespace Application.Service.Tutores
             Tutor Tutor = new Tutor
             {
                 UsuarioId = TutorDTO.UsuarioId,
-                Pacientes = new List<Paciente>(), //Ver como setear el UsuarioId
+                Pacientes = new List<Paciente>(),
             };
             return await TutorCommand.AddTutor(Tutor);
         }
@@ -60,15 +60,18 @@ namespace Application.Service.Tutores
             {
                 return null;
             }
-            //UsuarioDTO UsuarioDTO = Usar los mapping que estan al pedo ;
             MapFullToUsuarioDTO Mapping = new MapFullToUsuarioDTO();
 
             UsuarioDTO UsuarioDTO = Mapping.Map(FullUsuarioTutorDTO);
             UsuarioResponse Usuario = await TutorCommand.PutUsuario(Tutor.UsuarioId, UsuarioDTO);
-            //Tutor = await TutorCommand.PutTutor(Id,TutorDTO); //para cuando agregemos campos que se puedan cambiar en tutor
             FullUsuarioResponse UsuarioFinal = FiltrarUsuariosTutores.Filtrar(Tutor, Usuario);
             return UsuarioFinal;
         }
+
+
+
+
+
 
         public async Task<FullUsuarioResponse?> DeleteTutor(int Id)
         {
@@ -79,18 +82,6 @@ namespace Application.Service.Tutores
             }
 
             UsuarioResponse Usuario = await TutorCommand.DeleteUsuario(Tutor.UsuarioId);
-            //MapPacientesToPacientesResponse Mapping = new MapPacientesToPacientesResponse();
-            //if (Tutor != null)
-            //{
-            //    TutorResponse TutorResponse = new TutorResponse
-            //    {
-            //        TutorId = Tutor.TutorId,
-            //        UsuarioId = Tutor.UsuarioId,
-            //        PacientesResPonse = Mapping.Map(Tutor.Pacientes),
-            //    };
-            //    return TutorResponse;
-            //}
-            //return null;
             FullUsuarioResponse UsuarioFinal = FiltrarUsuariosTutores.Filtrar(Tutor, Usuario);
             return UsuarioFinal;
         }

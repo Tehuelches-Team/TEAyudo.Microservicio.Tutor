@@ -64,9 +64,10 @@ namespace Application.Service
             return null;
         }
 
-        public async Task DeletePaciente(int Id)
+        public async Task<bool> DeletePaciente(int Id)
         {
             await PacienteCommand.DeletePaciente(Id);
+            return true;
         }
 
     }
