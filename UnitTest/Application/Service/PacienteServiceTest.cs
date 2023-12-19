@@ -102,9 +102,6 @@ namespace UnitTest.Application.Service
 
 
 
-
-
-
         [Theory]
         [InlineData(0)]
         public async Task GetPacienteById_null(int Id)
@@ -123,12 +120,7 @@ namespace UnitTest.Application.Service
 
             //Assert
             Assert.Null(Result);
-
         }
-
-
-
-
 
 
 
@@ -150,7 +142,6 @@ namespace UnitTest.Application.Service
                 Sexo = "eee",
                 CertUniDisc = "eee",
             };
-
             Paciente PacienteDevuelto = new Paciente
             {
                 PacienteId = 1,
@@ -188,10 +179,6 @@ namespace UnitTest.Application.Service
 
 
 
-
-
-
-
         [Fact]
         public async Task PostPaciente_null()
         {
@@ -221,6 +208,7 @@ namespace UnitTest.Application.Service
             //Assert
             Assert.Null(Result);
         }
+
 
 
         [Theory]
@@ -267,7 +255,6 @@ namespace UnitTest.Application.Service
                 // Configura lo que devuelve el método del mockCommand
                 MockPacienteCommand.Setup(q => q.PutPaciente(It.IsAny<Paciente>())).ReturnsAsync(PacienteDevuelto);
 
-
                 //Act
                 PacienteResponse Result = await PacienteService.PutPaciente(PacienteId, PacienteDTO);
 
@@ -307,9 +294,6 @@ namespace UnitTest.Application.Service
                 Result.Should().BeNull();
             }
         }
-
-
-
 
 
 

@@ -97,8 +97,6 @@ namespace UnitTest.Application.Service
 
 
 
-
-
         [Fact]
         public async Task AddTutor_Int()
         {
@@ -121,6 +119,7 @@ namespace UnitTest.Application.Service
             //Assert
             Result.Should().Be(numero);
         }
+
 
 
         [Theory]
@@ -154,7 +153,6 @@ namespace UnitTest.Application.Service
                     UsuarioId = 1,
                     Pacientes = new List<Paciente>(),
                 };
-
                 UsuarioResponse UsuarioResponse = new UsuarioResponse
                 {
                     UsuarioId = 1,
@@ -168,7 +166,6 @@ namespace UnitTest.Application.Service
                     FechaNacimiento = "04/01/97",
                     EstadoUsuarioId = 0,
                 };
-
                 FullUsuarioResponse FullUsuarioResponse = new FullUsuarioResponse
                 {
                     TutorId = TutorId,
@@ -222,12 +219,6 @@ namespace UnitTest.Application.Service
 
 
 
-
-
-
-
-
-
         [Theory]
         [InlineData(0)]
         [InlineData(1)]
@@ -247,7 +238,6 @@ namespace UnitTest.Application.Service
                     UsuarioId = 1,
                     Pacientes = new List<Paciente>(),
                 };
-
                 UsuarioResponse UsuarioResponse = new UsuarioResponse
                 {
                     UsuarioId = 1,
@@ -261,7 +251,6 @@ namespace UnitTest.Application.Service
                     FechaNacimiento = "04/01/97",
                     EstadoUsuarioId = 0,
                 };
-
                 FullUsuarioResponse FullUsuarioResponse = new FullUsuarioResponse
                 {
                     TutorId = TutorId,
@@ -301,6 +290,7 @@ namespace UnitTest.Application.Service
                 Result.Should().BeNull();
             }
         }
+
 
 
         [Fact]
@@ -366,7 +356,6 @@ namespace UnitTest.Application.Service
             Result.Should().NotBeNull();
 
         }
-
 
 
 

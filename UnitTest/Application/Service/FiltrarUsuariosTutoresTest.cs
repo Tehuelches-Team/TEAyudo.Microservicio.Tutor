@@ -8,7 +8,6 @@ namespace UnitTest.Application.Service
 {
     public class FiltrarUsuariosTutoresTest
     {
-
         [Fact]
         public async Task Filtrar_ListaFullUsuarioResponse()
         {
