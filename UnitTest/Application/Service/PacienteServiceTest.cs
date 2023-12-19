@@ -66,7 +66,6 @@ namespace UnitTest.Application.Service
             var MockPacienteCommand = new Mock<IPacienteCommand>();
             IPacienteService PacienteService = new PacienteService(MockPacienteQuery.Object, MockPacienteCommand.Object);
 
-
             Paciente Paciente = new Paciente
             {
                 PacienteId = 1,
@@ -118,7 +117,6 @@ namespace UnitTest.Application.Service
             Paciente Paciente = null;
             //Configura lo que devuelve el metodo del mockQuery
             MockPacienteQuery.Setup(q => q.GetPacienteById(Id)).ReturnsAsync(Paciente);
-
 
             //Act
             PacienteResponse? Result = await PacienteService.GetPacienteById(Id);
@@ -173,7 +171,6 @@ namespace UnitTest.Application.Service
             // Configura lo que devuelve el método del mockCommand
             MockPacienteCommand.Setup(q => q.PostPaciente(It.IsAny<Paciente>())).ReturnsAsync(PacienteDevuelto);
 
-
             //Act
             PacienteResponse Result = await PacienteService.PostPaciente(PacienteDTO);
 
@@ -218,16 +215,12 @@ namespace UnitTest.Application.Service
             // Configura lo que devuelve el método del mockCommand
             MockPacienteCommand.Setup(q => q.PostPaciente(It.IsAny<Paciente>())).ReturnsAsync(PacienteDevuelto);
 
-
             //Act
             PacienteResponse? Result = await PacienteService.PostPaciente(PacienteDTO);
 
             //Assert
             Assert.Null(Result);
         }
-
-
-
 
 
         [Theory]
@@ -307,7 +300,6 @@ namespace UnitTest.Application.Service
                 // Configura lo que devuelve el método del mockCommand
                 MockPacienteCommand.Setup(q => q.PutPaciente(It.IsAny<Paciente>())).ReturnsAsync(PacienteDevuelto);
 
-
                 //Act
                 PacienteResponse? Result = await PacienteService.PutPaciente(PacienteId, PacienteDTO);
 
@@ -333,17 +325,11 @@ namespace UnitTest.Application.Service
             // Configura lo que devuelve el método del mockCommand
             MockPacienteCommand.Setup(q => q.DeletePaciente(It.IsAny<int>()));
 
-
             //Act
             bool Result = await PacienteService.DeletePaciente(PacienteId);
 
             //Assert
             Assert.True(Result);
         }
-
-
-
-
-
     }
 }

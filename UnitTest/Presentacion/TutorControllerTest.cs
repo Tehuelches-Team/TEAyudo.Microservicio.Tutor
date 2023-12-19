@@ -39,16 +39,14 @@ namespace UnitTest.Presentacion
             };
             MockTutorService.Setup(q => q.GetAllTutor()).ReturnsAsync(ListaFullUsuarioResponse);
 
-
-
             //Act
             var Result = await TutorController.GetAllTutor() as OkObjectResult;
-
 
             //Assert
             Result.Should().NotBeNull();
             Result.StatusCode.Should().Be(200);
         }
+
 
         [Fact]
         public async Task GetAllTutor_NotFound()
@@ -60,11 +58,8 @@ namespace UnitTest.Presentacion
             List<FullUsuarioResponse> ListaFullUsuarioResponse = null;
             MockTutorService.Setup(q => q.GetAllTutor()).ReturnsAsync(ListaFullUsuarioResponse);
 
-
-
             //Act
             var Result = await TutorController.GetAllTutor() as NotFoundObjectResult;
-
 
             //Assert
             Result.Should().NotBeNull();
@@ -99,11 +94,8 @@ namespace UnitTest.Presentacion
                 };
                 MockTutorService.Setup(q => q.GetTutorById(It.IsAny<int>())).ReturnsAsync(FullUsuarioResponse);
 
-
-
                 //Act
                 var Result = await TutorController.GetTutorById(TutorId) as OkObjectResult;
-
 
                 //Assert
                 Result.Should().NotBeNull();
@@ -120,10 +112,7 @@ namespace UnitTest.Presentacion
                 Result.Should().NotBeNull();
                 Result.StatusCode.Should().Be(404);
             }
-
         }
-
-
 
 
         [Theory]
@@ -134,7 +123,6 @@ namespace UnitTest.Presentacion
             //Arrange
             var MockTutorService = new Mock<ITutorService>();
             TutorController TutorController = new TutorController(MockTutorService.Object);
-
 
             if (UsuarioId > 0)
             {
@@ -245,8 +233,8 @@ namespace UnitTest.Presentacion
                 Result.Should().NotBeNull();
                 Result.StatusCode.Should().Be(404);
             }
-
         }
+
 
         [Theory]
         [InlineData(1)]
@@ -269,7 +257,7 @@ namespace UnitTest.Presentacion
             };
 
             MockTutorService.Setup(q => q.PutTutor(It.IsAny<int>(), It.IsAny<FullUsuarioTutorDTO>()))
-                            .Throws(new FormatException("fecha de nacimiento en formato incorrecto"));
+                .Throws(new FormatException("fecha de nacimiento en formato incorrecto"));
 
             //Act
             var Result = await TutorController.PutTutor(TutorId, FullUsuarioTutorDTO) as BadRequestObjectResult;
@@ -301,7 +289,7 @@ namespace UnitTest.Presentacion
             };
 
             MockTutorService.Setup(q => q.PutTutor(It.IsAny<int>(), It.IsAny<FullUsuarioTutorDTO>()))
-                            .Throws(new ConflictoException("Mail asociado a otra cuenta"));
+                .Throws(new ConflictoException("Mail asociado a otra cuenta"));
 
             //Act
             var Result = await TutorController.PutTutor(TutorId, FullUsuarioTutorDTO) as ConflictObjectResult;
@@ -310,6 +298,8 @@ namespace UnitTest.Presentacion
             Result.Should().NotBeNull();
             Result.StatusCode.Should().Be(409);
         }
+
+
 
         [Theory]
         [InlineData(1)]
@@ -357,19 +347,5 @@ namespace UnitTest.Presentacion
                 Result.StatusCode.Should().Be(404);
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

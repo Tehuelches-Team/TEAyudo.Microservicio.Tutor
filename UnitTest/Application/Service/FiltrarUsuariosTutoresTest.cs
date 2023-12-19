@@ -40,14 +40,11 @@ namespace UnitTest.Application.Service
             };
             FiltrarUsuariosTutores FiltrarUsuariosTutores = new FiltrarUsuariosTutores();
 
-
             //Act
             List<FullUsuarioResponse> ListaFullUsuarioResponse = FiltrarUsuariosTutores.Filtrar(ListaTutores, ListaUsuarios);
 
             //Assert
             ListaFullUsuarioResponse.Should().NotBeNull();
-
-
         }
 
 
@@ -92,7 +89,6 @@ namespace UnitTest.Application.Service
 
             FiltrarUsuariosTutores FiltrarUsuariosTutores = new FiltrarUsuariosTutores();
 
-
             //Act
             FullUsuarioResponse Result = FiltrarUsuariosTutores.Filtrar(Tutor, UsuarioRespo);
 
@@ -109,11 +105,6 @@ namespace UnitTest.Application.Service
             Result.Domicilio.Should().Be(FullUsuarioResponse.Domicilio);
             Result.FechaNacimiento.Should().Be(FullUsuarioResponse.FechaNacimiento);
             Result.EstadoUsuarioId.Should().Be(FullUsuarioResponse.EstadoUsuarioId);
-
-
-
         }
-
-
     }
 }

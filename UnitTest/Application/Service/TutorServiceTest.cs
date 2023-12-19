@@ -59,7 +59,6 @@ namespace UnitTest.Application.Service
                     EstadoUsuarioId = 0,
                 };
 
-
                 MockTutorQuery.Setup(q => q.GetTutorById(TutorId)).ReturnsAsync(Tutor);
                 MockTutorQuery.Setup(q => q.GetUsuarioById(It.IsAny<int>())).ReturnsAsync(UsuarioResponse);
                 MockFiltrarTutores.Setup(q => q.Filtrar(It.IsAny<Tutor>(), It.IsAny<UsuarioResponse>())).Returns(FullUsuarioResponse);
@@ -108,8 +107,6 @@ namespace UnitTest.Application.Service
             var MockTutorCommand = new Mock<ITutorCommand>();
             var MockFiltrarTutores = new Mock<IFiltrarUsuariosTutores>();
             ITutorService TutorService = new TutorService(MockTutorQuery.Object, MockTutorCommand.Object, MockFiltrarTutores.Object);
-
-
 
             TutorDTO TutorDTO = new TutorDTO
             {
@@ -172,7 +169,6 @@ namespace UnitTest.Application.Service
                     EstadoUsuarioId = 0,
                 };
 
-
                 FullUsuarioResponse FullUsuarioResponse = new FullUsuarioResponse
                 {
                     TutorId = TutorId,
@@ -188,11 +184,9 @@ namespace UnitTest.Application.Service
                     EstadoUsuarioId = 0,
                 };
 
-
                 MockTutorQuery.Setup(q => q.GetTutorById(It.IsAny<int>())).ReturnsAsync(Tutor);
                 MockTutorCommand.Setup(q => q.PutUsuario(It.IsAny<int>(), It.IsAny<UsuarioDTO>())).ReturnsAsync(UsuarioResponse);
                 MockFiltrarTutores.Setup(q => q.Filtrar(It.IsAny<Tutor>(), It.IsAny<UsuarioResponse>())).Returns(FullUsuarioResponse);
-
 
                 //act
                 FullUsuarioResponse Result = await TutorService.PutTutor(TutorId, FullUsuarioTutorDTO);
@@ -218,13 +212,11 @@ namespace UnitTest.Application.Service
 
                 MockTutorQuery.Setup(q => q.GetTutorById(It.IsAny<int>())).ReturnsAsync(Tutor);
 
-
                 //act
                 FullUsuarioResponse? Result = await TutorService.PutTutor(TutorId, FullUsuarioTutorDTO);
 
                 //Assert
                 Result.Should().BeNull();
-
             }
         }
 
@@ -270,7 +262,6 @@ namespace UnitTest.Application.Service
                     EstadoUsuarioId = 0,
                 };
 
-
                 FullUsuarioResponse FullUsuarioResponse = new FullUsuarioResponse
                 {
                     TutorId = TutorId,
@@ -286,11 +277,9 @@ namespace UnitTest.Application.Service
                     EstadoUsuarioId = 0,
                 };
 
-
                 MockTutorCommand.Setup(q => q.DeleteTutor(It.IsAny<int>())).ReturnsAsync(Tutor);
                 MockTutorCommand.Setup(q => q.DeleteUsuario(It.IsAny<int>())).ReturnsAsync(UsuarioResponse);
                 MockFiltrarTutores.Setup(q => q.Filtrar(It.IsAny<Tutor>(), It.IsAny<UsuarioResponse>())).Returns(FullUsuarioResponse);
-
 
                 //act
                 FullUsuarioResponse Result = await TutorService.DeleteTutor(TutorId);
@@ -305,13 +294,11 @@ namespace UnitTest.Application.Service
 
                 MockTutorCommand.Setup(q => q.DeleteTutor(It.IsAny<int>())).ReturnsAsync(Tutor);
 
-
                 //act
                 FullUsuarioResponse Result = await TutorService.DeleteTutor(TutorId);
 
                 //Assert
                 Result.Should().BeNull();
-
             }
         }
 
@@ -368,11 +355,9 @@ namespace UnitTest.Application.Service
                 }
             };
 
-
             MockTutorQuery.Setup(q => q.GetAllTutores()).ReturnsAsync(ListaTutor);
             MockTutorQuery.Setup(f => f.GetAllUsuarios()).ReturnsAsync(ListaUsuarioResponse);
             MockFiltrarTutores.Setup(q => q.Filtrar(It.IsAny<List<Tutor>>(), It.IsAny<List<UsuarioResponse>>())).Returns(FinalList);
-
 
             //act
             List<FullUsuarioResponse> Result = await TutorService.GetAllTutor();
@@ -397,7 +382,6 @@ namespace UnitTest.Application.Service
             List<Tutor> ListaTutor = new List<Tutor>();
             MockTutorQuery.Setup(q => q.GetAllTutores()).ReturnsAsync(ListaTutor);
 
-
             //act
             List<FullUsuarioResponse> Result = await TutorService.GetAllTutor();
 
@@ -416,21 +400,16 @@ namespace UnitTest.Application.Service
             var MockTutorCommand = new Mock<ITutorCommand>();
             var MockFiltrarTutores = new Mock<IFiltrarUsuariosTutores>();
             ITutorService TutorService = new TutorService(MockTutorQuery.Object, MockTutorCommand.Object, MockFiltrarTutores.Object);
-            int? TutorId = 1;
 
+            int? TutorId = 1;
             MockTutorQuery.Setup(q => q.GetTutorByUsuarioId(It.IsAny<int>())).ReturnsAsync(TutorId);
 
             //Act
             var Result = await TutorService.GetTutorIdbyUsuarioId(UsuarioId);
 
-
             //Assert
             Result.Should().NotBeNull();
             Result.Value.Should().Be(TutorId);
         }
-
-
-
-
     }
 }

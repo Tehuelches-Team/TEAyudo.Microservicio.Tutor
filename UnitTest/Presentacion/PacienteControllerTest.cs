@@ -38,16 +38,11 @@ namespace UnitTest.Presentacion
             //Act
             var Result = await PacienteController.GetPacientes() as OkObjectResult;
 
-
             //Assert
             Result.Should().NotBeNull();
             Result.StatusCode.Should().Be(200);
             Result.Value.Should().Be(ListaResponse);
         }
-
-
-
-
 
 
         [Fact]
@@ -63,7 +58,6 @@ namespace UnitTest.Presentacion
 
             //Act
             var Result = await PacienteController.GetPacientes() as NotFoundObjectResult;
-
 
             //Assert
             Result.Should().NotBeNull();
@@ -158,7 +152,6 @@ namespace UnitTest.Presentacion
                 //Act
                 var Result = await PacienteController.PostPaciente(PacienteDTO) as JsonResult;
 
-
                 //Assert
                 Result.Should().NotBeNull();
                 Result.StatusCode.Should().Be(201);
@@ -171,20 +164,12 @@ namespace UnitTest.Presentacion
                 //Act
                 var Result = await PacienteController.PostPaciente(PacienteDTO) as ConflictObjectResult;
 
-
                 //Assert
                 Result.Should().NotBeNull();
                 Result.StatusCode.Should().Be(409);
             }
 
         }
-
-
-
-
-
-
-
 
 
         [Theory]
@@ -308,9 +293,5 @@ namespace UnitTest.Presentacion
                 Result.StatusCode.Should().Be(404);
             }
         }
-
-
-
-
     }
 }
