@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
+    <ProjectReference Include="..\TEAyudo_Tutores\TEAyudo_Tutores.csproj" />
   </ItemGroup>
 
 </Project>

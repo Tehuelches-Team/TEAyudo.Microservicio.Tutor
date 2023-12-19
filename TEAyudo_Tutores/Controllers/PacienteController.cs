@@ -27,7 +27,7 @@ namespace TEAyudo_Tutores.Controllers
                 {
                     Mensaje = "No se encontraron pacientes."
                 };
-                return NotFound(); //codigo 204 realizada correctamente pero sin contenido devuelto
+                return NotFound(ObjetoAnonimo); 
             }
             return Ok(ListaResponse);
         }
@@ -92,7 +92,7 @@ namespace TEAyudo_Tutores.Controllers
             {
                 Mensaje = "No se ha encontrado al usuario con el ID " + Id
             };
-            return new JsonResult(ObjetoAnonimo2) { StatusCode = 404 };
+            return NotFound(ObjetoAnonimo2);
         }
 
 
@@ -109,7 +109,7 @@ namespace TEAyudo_Tutores.Controllers
                 return NotFound(ObjetoAnonimo);
             }
             await PacienteService.DeletePaciente(Id);
-            return new JsonResult(PacienteResponse) { StatusCode = 200 };
+            return Ok(PacienteResponse);
         }
     }
 }

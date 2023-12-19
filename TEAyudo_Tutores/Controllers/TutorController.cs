@@ -21,7 +21,6 @@ namespace TEAyudo.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllTutor()
         {
-
             List<FullUsuarioResponse?> ListaTutorResponse = await TutorService.GetAllTutor();
             if (ListaTutorResponse == null)
             {
@@ -29,7 +28,7 @@ namespace TEAyudo.Controllers
                 {
                     Mensaje = "La lista esta vacia."
                 };
-                return new JsonResult(ObjetoAnonimo) { StatusCode = 404 };
+                return NotFound(ObjetoAnonimo);
             }
 
             return Ok(ListaTutorResponse);
@@ -54,10 +53,10 @@ namespace TEAyudo.Controllers
 
 
         [HttpGet("Id/{UsuarioId}")]
-        public async Task<IActionResult> GetAcompananteId(int UsuarioId)
+        public async Task<IActionResult> GetTutorId(int UsuarioId)
         {
             int? response = await TutorService.GetTutorIdbyUsuarioId(UsuarioId);
-            if (response == null)
+            if (response == null || response == 0)
             {
                 var Respuesta = new { Motivo = "No se encontraron tutores registrados." };
                 return NotFound(Respuesta);
@@ -65,16 +64,6 @@ namespace TEAyudo.Controllers
             var tutor = new { Id = response };
             return Ok(tutor);
         }
-
-
-
-
-
-
-
-
-
-
 
 
         [HttpPost]
@@ -87,26 +76,8 @@ namespace TEAyudo.Controllers
                 TutorId = Resultado
             };
 
-
             return new JsonResult(ObjetoAnonimo) { StatusCode = 201 };
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -122,7 +93,7 @@ namespace TEAyudo.Controllers
                     {
                         Mensaje = "No se ha encontrado el tutor a actualizar."
                     };
-                    return new JsonResult(ObjetoAnonimo) { StatusCode = 404 };
+                    return NotFound(ObjetoAnonimo);
                 }
                 return new JsonResult(TutorResponse) { StatusCode = 201 };
             }

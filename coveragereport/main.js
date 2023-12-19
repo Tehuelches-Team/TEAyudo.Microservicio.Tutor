@@ -235,13 +235,31 @@ var assemblies = [
       { "name": "Application.Model.Response.UsuarioResponse", "rp": "Application_UsuarioResponse.html", "cl": 10, "ucl": 0, "cal": 10, "tl": 16, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Application.Service.PacienteService", "rp": "Application_PacienteService.html", "cl": 45, "ucl": 0, "cal": 45, "tl": 74, "cb": 6, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Application.Service.Tutores.FiltrarUsuariosTutores", "rp": "Application_FiltrarUsuariosTutores.html", "cl": 43, "ucl": 0, "cal": 43, "tl": 57, "cb": 6, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Application.Service.Tutores.TutorService", "rp": "Application_TutorService.html", "cl": 52, "ucl": 0, "cal": 52, "tl": 102, "cb": 8, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Application.Service.Tutores.TutorService", "rp": "Application_TutorService.html", "cl": 55, "ucl": 0, "cal": 55, "tl": 108, "cb": 8, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
     ]},
   {
     "name": "Domain",
     "classes": [
       { "name": "Domain.Entities.Paciente", "rp": "Domain_Paciente.html", "cl": 9, "ucl": 0, "cal": 9, "tl": 15, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Domain.Entities.Tutor", "rp": "Domain_Tutor.html", "cl": 3, "ucl": 0, "cal": 3, "tl": 7, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+    ]},
+  {
+    "name": "Infrastructure",
+    "classes": [
+      { "name": "Infrastructure.Command.PacienteCommand", "rp": "Infrastructure_PacienteCommand.html", "cl": 0, "ucl": 34, "cal": 34, "tl": 57, "cb": 0, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Infrastructure.Command.TutorCommand", "rp": "Infrastructure_TutorCommand.html", "cl": 0, "ucl": 48, "cal": 48, "tl": 84, "cb": 0, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Infrastructure.Migrations.TEAyudoContextModelSnapshot", "rp": "Infrastructure_TEAyudoContextModelSnapshot.html", "cl": 0, "ucl": 75, "cal": 75, "tl": 100, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Infrastructure.Migrations.v1", "rp": "Infrastructure_v1.html", "cl": 0, "ucl": 123, "cal": 123, "tl": 171, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Infrastructure.Persistence.TEAyudoContext", "rp": "Infrastructure_TEAyudoContext.html", "cl": 0, "ucl": 29, "cal": 29, "tl": 48, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Infrastructure.Query.PacienteQuery", "rp": "Infrastructure_PacienteQuery.html", "cl": 0, "ucl": 10, "cal": 10, "tl": 29, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Infrastructure.Query.TutorQuery", "rp": "Infrastructure_TutorQuery.html", "cl": 0, "ucl": 29, "cal": 29, "tl": 61, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+    ]},
+  {
+    "name": "TEAyudo_Tutores",
+    "classes": [
+      { "name": "Program", "rp": "TEAyudo_Tutores_Program.html", "cl": 0, "ucl": 28, "cal": 28, "tl": 53, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "TEAyudo_Tutores.Controllers.PacienteController", "rp": "TEAyudo_Tutores_PacienteController.html", "cl": 69, "ucl": 0, "cal": 69, "tl": 115, "cb": 12, "tb": 12, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "TEAyudo.Controllers.TutorController", "rp": "TEAyudo_Tutores_TutorController.html", "cl": 80, "ucl": 0, "cal": 80, "tl": 134, "cb": 12, "tb": 12, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
     ]},
 ];
 

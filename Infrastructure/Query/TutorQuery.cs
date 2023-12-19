@@ -52,7 +52,7 @@ namespace Infrastructure.Query
             return await Client.GetJsonAsync<UsuarioResponse>("/api/Usuario/" + Id);
         }
 
-        public async Task<int> GetTutorByUsuarioId(int Id)
+        public async Task<int?> GetTutorByUsuarioId(int Id)
         {
             Tutor? tutor = await Context.Tutores.FirstOrDefaultAsync(s => s.UsuarioId == Id);
             return tutor.TutorId;

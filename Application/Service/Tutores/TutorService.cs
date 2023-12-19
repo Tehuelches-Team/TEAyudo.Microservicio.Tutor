@@ -99,7 +99,7 @@ namespace Application.Service.Tutores
             return FinalList;
         }
 
-        public Task<int> GetTutorIdbyUsuarioId(int UsuarioId)
+        public Task<int?> GetTutorIdbyUsuarioId(int UsuarioId)
         {
             return TutorQuery.GetTutorByUsuarioId(UsuarioId);
         }

@@ -414,8 +414,27 @@ namespace UnitTest.Application.Service
 
 
 
+        [Theory]
+        [InlineData(1)]
+        public async Task GetTutorIdbyUsuarioId(int UsuarioId) 
+        {
+            //Arrange
+            var MockTutorQuery = new Mock<ITutorQuery>();
+            var MockTutorCommand = new Mock<ITutorCommand>();
+            var MockFiltrarTutores = new Mock<IFiltrarUsuariosTutores>();
+            ITutorService TutorService = new TutorService(MockTutorQuery.Object, MockTutorCommand.Object, MockFiltrarTutores.Object);
+            int? TutorId = 1;
+
+            MockTutorQuery.Setup(q => q.GetTutorByUsuarioId(It.IsAny<int>())).ReturnsAsync(TutorId);
+
+            //Act
+            var Result = await TutorService.GetTutorIdbyUsuarioId(UsuarioId);
 
 
+            //Assert
+            Result.Should().NotBeNull();
+            Result.Value.Should().Be(TutorId);
+        }
 
 
 
