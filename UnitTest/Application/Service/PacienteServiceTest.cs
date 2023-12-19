@@ -1,18 +1,11 @@
-﻿using Application.Interface.Pacientes;
+﻿using Application.DTO;
+using Application.Interface.Pacientes;
+using Application.Model.Response;
+using Application.Service;
+using Domain.Entities;
+using FluentAssertions;
 using Moq;
 using Xunit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Service;
-using Application.Model.Response;
-using Domain.Entities;
-using Application.DTO;
-using Application.Mapping;
-using FluentAssertions;
-using System.Diagnostics.Eventing.Reader;
 
 namespace UnitTest.Application.Service
 {

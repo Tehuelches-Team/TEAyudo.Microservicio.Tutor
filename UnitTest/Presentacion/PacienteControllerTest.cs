@@ -1,17 +1,9 @@
 ﻿using Application.DTO;
 using Application.Interface.Pacientes;
 using Application.Model.Response;
-using Application.Service;
-using Domain.Entities;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TEAyudo_Tutores.Controllers;
 using Xunit;
 
@@ -148,7 +140,7 @@ namespace UnitTest.Presentacion
                 Sexo = "eee",
                 CertUniDisc = "eee",
             };
-            if (TutorId > 0) 
+            if (TutorId > 0)
             {
                 PacienteResponse PacienteResponse = new PacienteResponse
                 {
@@ -171,7 +163,7 @@ namespace UnitTest.Presentacion
                 Result.Should().NotBeNull();
                 Result.StatusCode.Should().Be(201);
             }
-            else 
+            else
             {
                 PacienteResponse PacienteResponse = null;
                 MockPacienteService.Setup(q => q.PostPaciente(It.IsAny<PacienteDTO>())).ReturnsAsync(PacienteResponse);
@@ -199,7 +191,7 @@ namespace UnitTest.Presentacion
         [InlineData(1, 0)]
         [InlineData(0, 1)]
         [InlineData(1, 1)]
-        public async Task PutPaciente_CreatedOrConflictOrNotFound(int TutorId, int PacienteId) 
+        public async Task PutPaciente_CreatedOrConflictOrNotFound(int TutorId, int PacienteId)
         {
             //Arrange
             var MockPacienteService = new Mock<IPacienteService>();
@@ -215,7 +207,7 @@ namespace UnitTest.Presentacion
                 Sexo = "eee",
                 CertUniDisc = "eee",
             };
-            if (PacienteId > 0) 
+            if (PacienteId > 0)
             {
                 PacienteResponse PacienteResponse = new PacienteResponse
                 {
@@ -228,7 +220,7 @@ namespace UnitTest.Presentacion
                     TutorId = TutorId,
                     CertUniDisc = "eee",
                 };
-                if (TutorId > 0) 
+                if (TutorId > 0)
                 {
                     MockPacienteService.Setup(q => q.GetPacienteById(It.IsAny<int>())).ReturnsAsync(PacienteResponse);
                     MockPacienteService.Setup(q => q.PutPaciente(It.IsAny<int>(), It.IsAny<PacienteDTO>())).ReturnsAsync(PacienteResponse);
@@ -240,7 +232,7 @@ namespace UnitTest.Presentacion
                     Result.Should().NotBeNull();
                     Result.StatusCode.Should().Be(201);
                 }
-                else 
+                else
                 {
                     PacienteResponse PacienteResponse2 = null;
                     MockPacienteService.Setup(q => q.GetPacienteById(It.IsAny<int>())).ReturnsAsync(PacienteResponse);
@@ -254,7 +246,7 @@ namespace UnitTest.Presentacion
                     Result.StatusCode.Should().Be(409);
                 };
             }
-            else 
+            else
             {
                 PacienteResponse PacienteResponse = null;
                 MockPacienteService.Setup(q => q.GetPacienteById(It.IsAny<int>())).ReturnsAsync(PacienteResponse);
@@ -273,13 +265,13 @@ namespace UnitTest.Presentacion
         [Theory]
         [InlineData(1)]
         [InlineData(0)]
-        public async Task DeletePaciente_OkOrNotFound(int PacienteId) 
+        public async Task DeletePaciente_OkOrNotFound(int PacienteId)
         {
             //Arrange
             var MockPacienteService = new Mock<IPacienteService>();
             PacienteController PacienteController = new PacienteController(MockPacienteService.Object);
 
-            if (PacienteId > 0) 
+            if (PacienteId > 0)
             {
                 PacienteResponse PacienteResponse = new PacienteResponse
                 {

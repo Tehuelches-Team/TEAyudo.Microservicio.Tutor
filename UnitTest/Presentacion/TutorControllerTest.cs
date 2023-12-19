@@ -1,24 +1,13 @@
 ﻿using Application.DTO;
 using Application.Exceptions;
 using Application.Interface;
-using Application.Interface.Pacientes;
 using Application.Model.DTO;
 using Application.Model.Response;
-using Application.Service.Tutores;
-using Domain.Entities;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TEAyudo.Controllers;
 using Xunit;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UnitTest.Presentacion
 {
@@ -355,7 +344,7 @@ namespace UnitTest.Presentacion
                 Result.Should().NotBeNull();
                 Result.StatusCode.Should().Be(200);
             }
-            else 
+            else
             {
                 FullUsuarioResponse FullUsuarioResponse = null;
                 MockTutorService.Setup(q => q.DeleteTutor(It.IsAny<int>())).ReturnsAsync(FullUsuarioResponse);

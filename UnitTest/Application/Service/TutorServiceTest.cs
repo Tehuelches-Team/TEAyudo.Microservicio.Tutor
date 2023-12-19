@@ -1,19 +1,12 @@
 ﻿using Application.DTO;
 using Application.Interface;
-using Xunit;
-using Application.Interface.Pacientes;
 using Application.Model.DTO;
 using Application.Model.Response;
 using Application.Service.Tutores;
 using Domain.Entities;
 using FluentAssertions;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using Xunit;
 
 namespace UnitTest.Application.Service
 {
@@ -416,7 +409,7 @@ namespace UnitTest.Application.Service
 
         [Theory]
         [InlineData(1)]
-        public async Task GetTutorIdbyUsuarioId(int UsuarioId) 
+        public async Task GetTutorIdbyUsuarioId(int UsuarioId)
         {
             //Arrange
             var MockTutorQuery = new Mock<ITutorQuery>();

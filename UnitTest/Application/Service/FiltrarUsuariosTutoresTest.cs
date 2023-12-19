@@ -1,13 +1,8 @@
-﻿using System;
-using Xunit;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Model.Response;
-using Domain.Entities;
+﻿using Application.Model.Response;
 using Application.Service.Tutores;
+using Domain.Entities;
 using FluentAssertions;
+using Xunit;
 
 namespace UnitTest.Application.Service
 {

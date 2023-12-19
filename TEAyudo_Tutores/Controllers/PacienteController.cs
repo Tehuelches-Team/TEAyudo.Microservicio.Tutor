@@ -27,7 +27,7 @@ namespace TEAyudo_Tutores.Controllers
                 {
                     Mensaje = "No se encontraron pacientes."
                 };
-                return NotFound(ObjetoAnonimo); 
+                return NotFound(ObjetoAnonimo);
             }
             return Ok(ListaResponse);
         }
